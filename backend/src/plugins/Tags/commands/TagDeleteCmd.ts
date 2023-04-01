@@ -1,6 +1,6 @@
 import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils";
 import { tagsCmd } from "../types";
+import { deleteTag } from "../util/deleteTag";
 
 export const TagDeleteCmd = tagsCmd({
   trigger: "tag delete",
@@ -11,13 +11,6 @@ export const TagDeleteCmd = tagsCmd({
   },
 
   async run({ message: msg, args, pluginData }) {
-    const tag = await pluginData.state.tags.find(args.tag);
-    if (!tag) {
-      sendErrorMessage(pluginData, msg.channel, "No tag with that name");
-      return;
-    }
-
-    await pluginData.state.tags.delete(args.tag);
-    sendSuccessMessage(pluginData, msg.channel, "Tag deleted!");
+    deleteTag(pluginData, msg.channel, args.tag);
   },
 });

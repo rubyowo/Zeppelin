@@ -3,6 +3,7 @@ import escapeStringRegexp from "escape-string-regexp";
 import { ExtendedMatchParams, GuildPluginData } from "knub";
 import { StrictMessageContent } from "../../../utils";
 import { TagsPluginType, TTagCategory } from "../types";
+
 import { renderTagFromString } from "./renderTagFromString";
 
 interface BaseResult {
@@ -69,43 +70,39 @@ export async function matchAndRenderTagFromString(
     }
   }
 
-  // Dynamic tags
+  // Dynamic and Aliased tags
   if (config.can_use !== true) {
     return null;
   }
 
-  const dynamicTagPrefix = config.prefix;
-  if (!str.startsWith(dynamicTagPrefix)) {
+  const tagPrefix = config.prefix;
+  if (!str.startsWith(tagPrefix)) {
     return null;
   }
 
-  const dynamicTagNameMatch = str.slice(dynamicTagPrefix.length).match(/^\S+/);
-  if (dynamicTagNameMatch === null) {
+  const tagNameMatch = str.slice(tagPrefix.length).match(/^\S+/);
+  if (tagNameMatch === null) {
     return null;
   }
 
-  const dynamicTagName = dynamicTagNameMatch[0];
-  const dynamicTag = await pluginData.state.tags.find(dynamicTagName);
-  if (!dynamicTag) {
+  const tagName = tagNameMatch[0];
+  const dynamicTag = await pluginData.state.tags.find(tagName);
+  const aliasedTag = await pluginData.state.tagaliases.find(tagName);
+  const tag = dynamicTag ?? (await pluginData.state.tags.find(aliasedTag?.tag));
+
+  if (!tag) {
     return null;
   }
 
-  const renderedDynamicTagContent = await renderTagFromString(
-    pluginData,
-    str,
-    dynamicTagPrefix,
-    dynamicTagName,
-    dynamicTag.body,
-    member,
-  );
+  const renderedTagContent = await renderTagFromString(pluginData, str, tagPrefix, tagName, tag.body, member);
 
-  if (renderedDynamicTagContent == null) {
+  if (renderedTagContent == null) {
     return null;
   }
 
   return {
-    renderedContent: renderedDynamicTagContent,
-    tagName: dynamicTagName,
+    renderedContent: renderedTagContent,
+    tagName: tagName,
     categoryName: null,
     category: null,
   };

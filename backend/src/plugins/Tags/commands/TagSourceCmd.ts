@@ -1,7 +1,8 @@
 import moment from "moment-timezone";
 import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { getBaseUrl, sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils";
+import { getBaseUrl, sendErrorMessage } from "../../../pluginUtils";
 import { tagsCmd } from "../types";
+import { deleteTag } from "../util/deleteTag";
 
 export const TagSourceCmd = tagsCmd({
   trigger: "tag",
@@ -15,18 +16,13 @@ export const TagSourceCmd = tagsCmd({
 
   async run({ message: msg, args, pluginData }) {
     if (args.delete) {
-      const actualTag = await pluginData.state.tags.find(args.tag);
-      if (!actualTag) {
-        sendErrorMessage(pluginData, msg.channel, "No tag with that name");
-        return;
-      }
-
-      await pluginData.state.tags.delete(args.tag);
-      sendSuccessMessage(pluginData, msg.channel, "Tag deleted!");
+      deleteTag(pluginData, msg.channel, args.tag);
       return;
     }
 
-    const tag = await pluginData.state.tags.find(args.tag);
+    const alias = await pluginData.state.tagaliases.find(args.tag);
+    const tag = await pluginData.state.tags.find(alias?.tag || args.tag);
+
     if (!tag) {
       sendErrorMessage(pluginData, msg.channel, "No tag with that name");
       return;

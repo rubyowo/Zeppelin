@@ -22,5 +22,14 @@ export async function findTagByName(
   // Dynamic tag
   // Format: "tag"
   const dynamicTag = await pluginData.state.tags.find(name);
-  return dynamicTag?.body ?? null;
+  const dynamicTagBody = dynamicTag?.body ?? null;
+  if (dynamicTagBody) return dynamicTagBody;
+
+  // Aliased tag
+  // Format: "alias"
+  const aliasedTag = await pluginData.state.tagaliases.find(name);
+  const tagFromAlias = await pluginData.state.tags.find(aliasedTag?.tag);
+  const tagFromAliasBody = tagFromAlias?.body ?? null;
+
+  return tagFromAliasBody;
 }
