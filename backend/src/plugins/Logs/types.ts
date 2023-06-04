@@ -331,6 +331,11 @@ export const LogTypeData = z.object({
     count: z.number(),
     archiveUrl: z.string(),
   }),
+  [LogType.ARCHIVE]: z.object({
+    channel: z.instanceof(TemplateSafeChannel),
+    count: z.number(),
+    archiveUrl: z.string(),
+  }),
 
   [LogType.CASE_CREATE]: z.object({
     mod: z.instanceof(TemplateSafeUser),

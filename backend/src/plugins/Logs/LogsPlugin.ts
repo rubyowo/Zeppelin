@@ -41,6 +41,7 @@ import { onMessageUpdate } from "./util/onMessageUpdate";
 import { escapeCodeBlock } from "discord.js";
 import { InternalPosterPlugin } from "../InternalPoster/InternalPosterPlugin";
 import { LogsGuildMemberRoleChangeEvt } from "./events/LogsGuildMemberRoleChangeEvt";
+import { logArchive } from "./logFunctions/logArchive";
 import { logAutomodAction } from "./logFunctions/logAutomodAction";
 import { logBotAlert } from "./logFunctions/logBotAlert";
 import { logCaseCreate } from "./logFunctions/logCaseCreate";
@@ -188,6 +189,7 @@ export const LogsPlugin = zeppelinGuildPlugin<LogsPluginType>()({
       };
     },
 
+    logArchive: mapToPublicFn(logArchive),
     logAutomodAction: mapToPublicFn(logAutomodAction),
     logBotAlert: mapToPublicFn(logBotAlert),
     logCaseCreate: mapToPublicFn(logCaseCreate),

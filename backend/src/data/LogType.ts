@@ -54,6 +54,7 @@ export enum LogType {
   MESSAGE_SPAM_DETECTED,
   CENSOR,
   CLEAN,
+  ARCHIVE,
 
   CASE_CREATE,
 

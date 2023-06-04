@@ -12,6 +12,7 @@ import { ModActionsPlugin } from "../ModActions/ModActionsPlugin";
 import { TimeAndDatePlugin } from "../TimeAndDate/TimeAndDatePlugin";
 import { zeppelinGuildPlugin } from "../ZeppelinPluginBlueprint";
 import { AboutCmd } from "./commands/AboutCmd";
+import { ArchiveCmd } from "./commands/ArchiveCmd";
 import { AvatarCmd } from "./commands/AvatarCmd";
 import { BanSearchCmd } from "./commands/BanSearchCmd";
 import { ChannelInfoCmd } from "./commands/ChannelInfoCmd";
@@ -69,6 +70,7 @@ const defaultOptions: PluginOptions<UtilityPluginType> = {
     can_about: false,
     can_context: false,
     can_jumbo: false,
+    can_archive: false,
     jumbo_size: 128,
     can_avatar: false,
     info_on_single_result: true,
@@ -82,6 +84,7 @@ const defaultOptions: PluginOptions<UtilityPluginType> = {
         can_level: true,
         can_search: true,
         can_clean: true,
+        can_archive: true,
         can_info: true,
         can_server: true,
         can_inviteinfo: true,
@@ -153,6 +156,7 @@ export const UtilityPlugin = zeppelinGuildPlugin<UtilityPluginType>()({
     SnowflakeInfoCmd,
     RoleInfoCmd,
     EmojiInfoCmd,
+    ArchiveCmd,
   ],
 
   // prettier-ignore
