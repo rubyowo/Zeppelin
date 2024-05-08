@@ -30,8 +30,8 @@ services:
       dockerfile: docker/production/nginx/Dockerfile
       args:
         STANDALONE_DOMAIN: ${STANDALONE_DOMAIN:?Missing STANDALONE_DOMAIN}
-    ports:
-      - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:443"
+      # ports:
+      #    - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:443"
 
   migrate:
     depends_on:
