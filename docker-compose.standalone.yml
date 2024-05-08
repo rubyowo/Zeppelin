@@ -28,8 +28,10 @@ services:
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
-    ports:
-      #  - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
+  # ports:
+    # - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
+
+  migrate:
     depends_on:
       mysql:
         condition: service_healthy
