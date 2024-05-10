@@ -7,4 +7,4 @@ Vue.directive("highlightjs", {
     	hljs.highlightElement(el);
     };
   },
-);
+});
