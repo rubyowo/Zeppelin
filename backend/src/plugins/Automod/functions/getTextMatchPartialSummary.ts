@@ -34,7 +34,6 @@ export function getTextMatchPartialSummary(
     const message = context.message!;
     const channel = pluginData.guild.channels.cache.get(message.channel_id as Snowflake);
     const channelMention = channel ? verboseChannelMention(channel) : `\`#${message.channel_id}\``;
-    const poll = message.data.poll!;
-    return `poll in ${channelMention}: "${poll.question}"`;
+    return `poll in ${channelMention}:\n${messageSummary(message)}`;
   }
 }
