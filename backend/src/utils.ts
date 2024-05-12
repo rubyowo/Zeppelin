@@ -1326,10 +1326,6 @@ export function messageSummary(msg: SavedMessage) {
       "\n";
   }
 
-  if (msg.data.poll) {
-    result += "Poll: ```" + escapeCodeBlock(JSON.stringify(msg.data.poll)) + "```";
-  }
-
   return result;
 }
 
