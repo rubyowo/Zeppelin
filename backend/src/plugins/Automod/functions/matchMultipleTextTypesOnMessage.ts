@@ -15,7 +15,7 @@ type TextTriggerWithMultipleMatchTypes = {
   match_polls: boolean;
 };
 
-export type MatchableTextType = "message" | "embed" | "visiblename" | "username" | "nickname" | "customstatus";
+export type MatchableTextType = "message" | "embed" | "visiblename" | "username" | "nickname" | "customstatus" | "poll";
 
 type YieldedContent = [MatchableTextType, string];
 
@@ -59,5 +59,9 @@ export async function* matchMultipleTextTypesOnMessage(
       yield ["customstatus", `${activity.emoji} ${activity.name}`];
       break;
     }
+  }
+
+  if (trigger.match_polls && msg.data.poll) {
+    yield ["poll", JSON.stringify(msg.data.poll)];
   }
 }
