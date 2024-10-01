@@ -68,6 +68,7 @@ const zRule = z.strictObject({
   cooldown: zDelayString.nullable().default(null),
   allow_further_rules: z.boolean().default(false),
   triggers: z.array(zTriggersMap),
+  require_all_triggers: z.boolean().default(false),
   actions: zActionsMap.refine((v) => !(v.clean && v.start_thread), {
     message: "Cannot have both clean and start_thread active at the same time",
   }),
