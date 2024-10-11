@@ -8,7 +8,7 @@ import {
   MessageCreateOptions,
   MessageMentionOptions,
   PermissionsBitField,
-  TextBasedChannel,
+  SendableChannels,
 } from "discord.js";
 import { AnyPluginData, BasePluginData, CommandContext, ExtendedMatchParams, GuildPluginData, helpers } from "knub";
 import { logger } from "./logger";
@@ -51,7 +51,7 @@ export async function hasPermission(
 
 export async function sendSuccessMessage(
   pluginData: AnyPluginData<any>,
-  channel: TextBasedChannel,
+  channel: SendableChannels,
   body: string,
   allowedMentions?: MessageMentionOptions,
 ): Promise<Message | undefined> {
@@ -72,7 +72,7 @@ export async function sendSuccessMessage(
 
 export async function sendErrorMessage(
   pluginData: AnyPluginData<any>,
-  channel: TextBasedChannel,
+  channel: SendableChannels,
   body: string,
   allowedMentions?: MessageMentionOptions,
 ): Promise<Message | undefined> {

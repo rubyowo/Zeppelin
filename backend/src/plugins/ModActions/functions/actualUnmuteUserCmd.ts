@@ -13,6 +13,8 @@ export async function actualUnmuteCmd(
   msg: Message,
   args: { time?: number; reason?: string; mod?: GuildMember },
 ) {
+  if (!msg.channel.isSendable()) return;
+
   // The moderator who did the action is the message author or, if used, the specified -mod
   let mod = msg.author;
   let pp: User | null = null;

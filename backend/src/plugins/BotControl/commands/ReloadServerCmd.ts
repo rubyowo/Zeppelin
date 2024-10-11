@@ -15,6 +15,8 @@ export const ReloadServerCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     if (!pluginData.client.guilds.cache.has(args.guildId as Snowflake)) {
       sendErrorMessage(pluginData, msg.channel, "I am not in that guild");
       return;

@@ -2,7 +2,6 @@ import { APIEmbed, ChannelType } from "discord.js";
 import { GuildPluginData } from "knub";
 import {
   EmbedWith,
-  GroupDMInvite,
   formatNumber,
   inviteHasCounts,
   isGroupDMInvite,
@@ -19,7 +18,7 @@ export async function getInviteInfoEmbed(
   pluginData: GuildPluginData<UtilityPluginType>,
   inviteCode: string,
 ): Promise<APIEmbed | null> {
-  let invite = await resolveInvite(pluginData.client, inviteCode, true);
+  const invite = await resolveInvite(pluginData.client, inviteCode, true);
   if (!invite) {
     return null;
   }
@@ -100,7 +99,6 @@ export async function getInviteInfoEmbed(
       fields: [],
     };
 
-    invite = invite as GroupDMInvite;
     embed.author = {
       name: invite.channel!.name ? `Group DM invite:  ${invite.channel!.name}` : `Group DM invite`,
       url: `https://discord.gg/${invite.code}`,

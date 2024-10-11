@@ -16,6 +16,8 @@ export const AddServerFromInviteCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     const invite = await resolveInvite(pluginData.client, args.inviteCode, true);
     if (!invite || !isGuildInvite(invite)) {
       sendErrorMessage(pluginData, msg.channel, "Could not resolve invite"); // :D

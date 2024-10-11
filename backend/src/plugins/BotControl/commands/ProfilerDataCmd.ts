@@ -21,6 +21,8 @@ export const ProfilerDataCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     if (args.sort === "samples") {
       args.sort = "count";
     }

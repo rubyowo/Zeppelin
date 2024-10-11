@@ -16,6 +16,8 @@ export const RemoveDashboardUserCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     const guild = await pluginData.state.allowedGuilds.find(args.guildId);
     if (!guild) {
       sendErrorMessage(pluginData, msg.channel, "Server is not using Zeppelin");
