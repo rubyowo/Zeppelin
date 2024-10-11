@@ -50,7 +50,7 @@ export const AboutCmd = utilityCmd({
       ["Last config reload", `${lastReload} ago`],
       ["Last bot update", lastUpdate],
       ["Version", version],
-      ["API latency", `${pluginData.client.ws.ping}ms`],
+      ["API latency", `${pluginData.client.ping}ms`],
       ["Server timezone", timeAndDate.getGuildTz()],
     ];
 

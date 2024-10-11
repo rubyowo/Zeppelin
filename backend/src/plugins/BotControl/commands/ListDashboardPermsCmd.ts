@@ -15,6 +15,8 @@ export const ListDashboardPermsCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     if (!args.user && !args.guildId) {
       sendErrorMessage(pluginData, msg.channel, "Must specify at least guildId, user, or both.");
       return;

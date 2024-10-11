@@ -27,6 +27,8 @@ export async function actualMuteUserCmd(
     "notify-channel"?: GuildTextBasedChannel;
   },
 ) {
+  if (!msg.channel.isSendable()) return;
+
   // The moderator who did the action is the message author or, if used, the specified -mod
   let mod: GuildMember = msg.member!;
   let pp: User | null = null;

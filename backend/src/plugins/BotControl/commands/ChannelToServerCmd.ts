@@ -14,6 +14,8 @@ export const ChannelToServerCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     const channel = pluginData.client.channels.cache.get(args.channelId);
     if (!channel) {
       sendErrorMessage(pluginData, msg.channel, "Channel not found in cache!");

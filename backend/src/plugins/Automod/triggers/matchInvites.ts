@@ -1,5 +1,5 @@
 import z from "zod";
-import { getInviteCodesInString, GuildInvite, isGuildInvite, resolveInvite, zSnowflake } from "../../../utils";
+import { getInviteCodesInString, GuildInvite, isGuildInvite, resolveInvite, Snowflake, zSnowflake } from "../../../utils";
 import { getTextMatchPartialSummary } from "../functions/getTextMatchPartialSummary";
 import { MatchableTextType, matchMultipleTextTypesOnMessage } from "../functions/matchMultipleTextTypesOnMessage";
 import { automodTrigger } from "../helpers";
@@ -52,10 +52,10 @@ export const MatchInvitesTrigger = automodTrigger<MatchResultType>()({
         const invite = await resolveInvite(pluginData.client, code);
         if (!invite || !isGuildInvite(invite)) return { extra: { type, code } };
 
-        if (trigger.include_guilds && trigger.include_guilds.includes(invite.guild.id)) {
+        if (trigger.include_guilds && trigger.include_guilds.includes(invite.guild.id as Snowflake)) {
           return { extra: { type, code, invite } };
         }
-        if (trigger.exclude_guilds && !trigger.exclude_guilds.includes(invite.guild.id)) {
+        if (trigger.exclude_guilds && !trigger.exclude_guilds.includes(invite.guild.id as Snowflake)) {
           return { extra: { type, code, invite } };
         }
       }

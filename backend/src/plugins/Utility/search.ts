@@ -97,6 +97,8 @@ export async function displaySearch(
   const perPage = args.ids ? SEARCH_ID_RESULTS_PER_PAGE : SEARCH_RESULTS_PER_PAGE;
 
   const loadSearchPage = async (page) => {
+    if (!msg.channel.isSendable()) return;
+
     if (searching) return;
     searching = true;
 
@@ -254,6 +256,8 @@ export async function archiveSearch(
   searchType: SearchType,
   msg: Message,
 ) {
+  if (!msg.channel.isSendable()) return;
+
   let results;
   try {
     switch (searchType) {

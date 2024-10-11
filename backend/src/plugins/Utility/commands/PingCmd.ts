@@ -35,7 +35,7 @@ export const PingCmd = utilityCmd({
       Highest: **${highest}ms**
       Mean: **${mean}ms**
       Time between ping command and first reply: **${msgToMsgDelay!}ms**
-      Shard latency: **${pluginData.client.ws.ping}ms**
+      Shard latency: **${pluginData.client.ping}ms**
     `),
     );
 
