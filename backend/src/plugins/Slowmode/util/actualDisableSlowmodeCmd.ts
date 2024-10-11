@@ -7,6 +7,8 @@ import { BOT_SLOWMODE_DISABLE_PERMISSIONS } from "../requiredPermissions.js";
 import { disableBotSlowmodeForChannel } from "./disableBotSlowmodeForChannel.js";
 
 export async function actualDisableSlowmodeCmd(msg: Message, args, pluginData) {
+  if (!msg.channel.isSendable()) return;
+
   const botSlowmode = await pluginData.state.slowmodes.getChannelSlowmode(args.channel.id);
   const hasNativeSlowmode = args.channel.rateLimitPerUser;
 

@@ -18,6 +18,7 @@ export const AllowServerCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
     const existing = await pluginData.state.allowedGuilds.find(args.guildId);
     if (existing) {
       sendErrorMessage(pluginData, msg.channel, "Server is already allowed!");

@@ -126,7 +126,6 @@ export class TemplateSafeStage extends TemplateSafeValueContainer {
   channelId: Snowflake;
   channelMention: string;
   createdAt: number;
-  discoverable: boolean;
   topic: string;
 
   constructor(data: InputProps<TemplateSafeStage>) {
@@ -306,7 +305,6 @@ export function stageToTemplateSafeStage(stage: StageInstance): TemplateSafeStag
     channelId: stage.channelId,
     channelMention: `<#${stage.channelId}>`,
     createdAt: stage.createdTimestamp,
-    discoverable: !stage.discoverableDisabled,
     topic: stage.topic,
   });
 }

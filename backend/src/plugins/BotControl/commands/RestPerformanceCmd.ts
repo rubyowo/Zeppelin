@@ -14,6 +14,8 @@ export const RestPerformanceCmd = botControlCmd({
   },
 
   async run({ message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     const count = Math.max(1, Math.min(25, args.count || 5));
     const stats = getTopRestCallStats(count);
     const formatted = stats.map((callStats) => {

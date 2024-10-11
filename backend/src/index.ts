@@ -172,7 +172,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Verify required Node.js version
-const REQUIRED_NODE_VERSION = "16.9.0";
+const REQUIRED_NODE_VERSION = "18.0.0";
 const requiredParts = REQUIRED_NODE_VERSION.split(".").map((v) => parseInt(v, 10));
 const actualVersionParts = process.versions.node.split(".").map((v) => parseInt(v, 10));
 for (const [i, part] of actualVersionParts.entries()) {
@@ -371,7 +371,7 @@ connect().then(async () => {
     },
   });
 
-  client.once("ready", () => {
+  client.once("clientReady", () => {
     startUptimeCounter();
   });
 

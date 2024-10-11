@@ -10,6 +10,8 @@ export const ReloadGlobalPluginsCmd = botControlCmd({
   },
 
   async run({ pluginData, message }) {
+    if (!message.channel.isSendable()) return;
+
     if (getActiveReload()) return;
 
     const guildId = "guild" in message.channel ? message.channel.guild.id : null;
