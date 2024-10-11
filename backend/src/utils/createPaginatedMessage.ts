@@ -6,7 +6,7 @@ import {
   MessageReaction,
   PartialMessageReaction,
   PartialUser,
-  TextBasedChannel,
+  SendableChannels,
   User,
 } from "discord.js";
 import { MINUTES, noop } from "../utils.js";
@@ -27,7 +27,7 @@ const defaultOpts: PaginateMessageOpts = {
 
 export async function createPaginatedMessage(
   client: Client,
-  channel: TextBasedChannel | User,
+  channel: SendableChannels | User,
   totalPages: number,
   loadPageFn: LoadPageFn,
   opts: Partial<PaginateMessageOpts> = {},

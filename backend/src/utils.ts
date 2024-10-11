@@ -14,6 +14,7 @@ import {
   GuildTextBasedChannel,
   Invite,
   InviteGuild,
+  InviteType,
   LimitedCollection,
   Message,
   MessageCreateOptions,
@@ -21,8 +22,8 @@ import {
   PartialChannelData,
   PartialMessage,
   RoleResolvable,
+  SendableChannels,
   Sticker,
-  TextBasedChannel,
   User,
 } from "discord.js";
 import emojiRegex from "emoji-regex";
@@ -147,10 +148,7 @@ export function nonNullish<V>(v: V): v is NonNullable<V> {
 }
 
 export type GuildInvite = Invite & { guild: InviteGuild | Guild };
-export type GroupDMInvite = Invite & {
-  channel: PartialChannelData;
-  type: typeof ChannelType.GroupDM;
-};
+export type GroupDMInvite = Invite & { channel: PartialChannelData };
 
 export function zBoundedCharacters(min: number, max: number) {
   return z.string().refine(
@@ -838,7 +836,7 @@ export function chunkMessageLines(str: string, maxChunkLength = 1990): string[] 
 }
 
 export async function createChunkedMessage(
-  channel: TextBasedChannel | User,
+  channel: SendableChannels | User,
   messageText: string,
   allowedMentions?: MessageMentionOptions,
 ) {
@@ -1482,7 +1480,7 @@ export function isGuildInvite(invite: Invite): invite is GuildInvite {
 }
 
 export function isGroupDMInvite(invite: Invite): invite is GroupDMInvite {
-  return invite.guild == null && invite.channel?.type === ChannelType.GroupDM;
+  return invite.guild == null && invite.type == InviteType.GroupDM;
 }
 
 export function inviteHasCounts(invite: Invite): invite is Invite {

@@ -7,6 +7,8 @@ import { LogsPlugin } from "../../Logs/LogsPlugin.js";
 import { formatReasonWithAttachments } from "./formatReasonWithAttachments.js";
 
 export async function updateCase(pluginData, msg: Message, args) {
+  if (!msg.channel.isSendable()) return;
+
   let theCase: Case | undefined;
   if (args.caseNumber != null) {
     theCase = await pluginData.state.cases.findByCaseNumber(args.caseNumber);

@@ -39,7 +39,9 @@ export async function runEvent(
   } catch (e) {
     if (e instanceof ActionError) {
       if (event.trigger.type === "command") {
-        sendErrorMessage(pluginData, (eventData.msg as Message).channel, e.message);
+        const msg = eventData.msg as Message;
+        if (!msg.channel.isSendable()) return;
+        sendErrorMessage(pluginData, msg.channel, e.message);
       } else {
         // TODO: Where to log action errors from other kinds of triggers?
       }

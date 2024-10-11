@@ -36,11 +36,7 @@ export const LogsStageInstanceDeleteEvt = logsEvt({
   },
 });
 
-const validStageInstanceDiffProps: Set<keyof StageInstance> = new Set([
-  "topic",
-  "privacyLevel",
-  "discoverableDisabled",
-]);
+const validStageInstanceDiffProps: Set<keyof StageInstance> = new Set(["topic", "privacyLevel"]);
 
 export const LogsStageInstanceUpdateEvt = logsEvt({
   event: "stageInstanceUpdate",

@@ -28,6 +28,8 @@ export async function actualPostCmd(
     "repeat-times"?: number;
   } = {},
 ) {
+  if (!msg.channel.isSendable()) return;
+
   if (!targetChannel.isTextBased()) {
     msg.channel.send(errorMessage("Specified channel is not a text-based channel"));
     return;

@@ -20,6 +20,8 @@ export const ServersCmd = botControlCmd({
   },
 
   async run({ pluginData, message: msg, args }) {
+    if (!msg.channel.isSendable()) return;
+
     const showList = Boolean(args.all || args.initialized || args.uninitialized || args.search);
     const search = args.search ? new RegExp([...args.search].map((s) => escapeStringRegexp(s)).join(".*"), "i") : null;
 
