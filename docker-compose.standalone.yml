@@ -10,8 +10,8 @@ services:
       MYSQL_DATABASE: zeppelin
       MYSQL_USER: zeppelin
       MYSQL_PASSWORD: ${STANDALONE_MYSQL_PASSWORD?:Missing STANDALONE_MYSQL_PASSWORD}
-    ports:
-      - 127.0.0.1:${STANDALONE_MYSQL_PORT:?Missing STANDALONE_MYSQL_PORT}:3306
+        #    ports:
+        #        - 127.0.0.1:${STANDALONE_MYSQL_PORT:?Missing STANDALONE_MYSQL_PORT}:3306
     # If you're upgrading from an older version, you can load your old database by switching the volumes below.
     # Then, take a database dump from the old database, switch the volumes back, and load the dump into the new database.
     volumes:
@@ -28,8 +28,8 @@ services:
     build:
       context: .
       dockerfile: docker/production/nginx/Dockerfile
-    ports:
-      - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
+        #    ports:
+        #      - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:80"
 
   migrate:
     depends_on:
