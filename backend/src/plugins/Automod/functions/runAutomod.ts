@@ -151,8 +151,6 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
 
         const actionStartTime = performance.now();
 
-        console.log(contexts);
-
         const action = availableActions[actionName];
 
         action.apply({
