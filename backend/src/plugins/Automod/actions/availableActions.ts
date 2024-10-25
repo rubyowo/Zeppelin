@@ -1,23 +1,26 @@
-import { AutomodActionBlueprint } from "../helpers";
-import { AddRolesAction } from "./addRoles";
-import { AddToCounterAction } from "./addToCounter";
-import { AlertAction } from "./alert";
-import { ArchiveThreadAction } from "./archiveThread";
-import { BanAction } from "./ban";
-import { ChangeNicknameAction } from "./changeNickname";
-import { ChangePermsAction } from "./changePerms";
-import { CleanAction } from "./clean";
-import { KickAction } from "./kick";
-import { LogAction } from "./log";
-import { MuteAction } from "./mute";
-import { PauseInvitesAction } from "./pauseInvites";
-import { RemoveRolesAction } from "./removeRoles";
-import { ReplyAction } from "./reply";
-import { SetAntiraidLevelAction } from "./setAntiraidLevel";
-import { SetCounterAction } from "./setCounter";
-import { SetSlowmodeAction } from "./setSlowmode";
-import { StartThreadAction } from "./startThread";
-import { WarnAction } from "./warn";
+import { AutomodActionBlueprint } from "../helpers.js";
+import { AddRolesAction } from "./addRoles.js";
+import { AddToCounterAction } from "./addToCounter.js";
+import { AlertAction } from "./alert.js";
+import { ArchiveThreadAction } from "./archiveThread.js";
+import { BanAction } from "./ban.js";
+import { ChangeNicknameAction } from "./changeNickname.js";
+import { ChangePermsAction } from "./changePerms.js";
+import { CleanAction } from "./clean.js";
+import { EditPostTagsAction } from "./editPostTags.js";
+import { KickAction } from "./kick.js";
+import { LockThreadAction } from "./lockThread.js";
+import { LogAction } from "./log.js";
+import { MuteAction } from "./mute.js";
+import { PauseInvitesAction } from "./pauseInvites.js";
+import { RemoveRolesAction } from "./removeRoles.js";
+import { ReplyAction } from "./reply.js";
+import { SetAntiraidLevelAction } from "./setAntiraidLevel.js";
+import { SetCounterAction } from "./setCounter.js";
+import { SetSlowmodeAction } from "./setSlowmode.js";
+import { StartThreadAction } from "./startThread.js";
+import { UnlockThreadAction } from "./unlockThread.js";
+import { WarnAction } from "./warn.js";
 
 export const availableActions = {
   clean: CleanAction,
@@ -37,6 +40,9 @@ export const availableActions = {
   set_slowmode: SetSlowmodeAction,
   start_thread: StartThreadAction,
   archive_thread: ArchiveThreadAction,
+  lock_thread: LockThreadAction,
+  unlock_thread: UnlockThreadAction,
+  edit_post_tags: EditPostTagsAction,
   change_perms: ChangePermsAction,
   pause_invites: PauseInvitesAction,
 } satisfies Record<string, AutomodActionBlueprint<any>>;
