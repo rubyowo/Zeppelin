@@ -1,5 +1,5 @@
 import { GuildMember, GuildTextBasedChannel, Message, User } from "discord.js";
-import humanizeDuration from "humanize-duration";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { GuildPluginData } from "knub";
 import { ERRORS, RecoverablePluginError } from "../../../RecoverablePluginError";
 import { logger } from "../../../logger";

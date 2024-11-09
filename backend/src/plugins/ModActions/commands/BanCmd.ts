@@ -1,4 +1,4 @@
-import humanizeDuration from "humanize-duration";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { getMemberLevel } from "knub/helpers";
 import { commandTypeHelpers as ct } from "../../../commandTypes";
 import { CaseTypes } from "../../../data/CaseTypes";

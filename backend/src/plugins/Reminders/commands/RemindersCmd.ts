@@ -1,4 +1,4 @@
-import humanizeDuration from "humanize-duration";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import moment from "moment-timezone";
 import { sendErrorMessage } from "../../../pluginUtils";
 import { createChunkedMessage, DBDateFormat, sorter } from "../../../utils";
