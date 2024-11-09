@@ -1,5 +1,12 @@
 import z from "zod";
-import { getInviteCodesInString, GuildInvite, isGuildInvite, resolveInvite, Snowflake, zSnowflake } from "../../../utils";
+import {
+  getInviteCodesInString,
+  GuildInvite,
+  isGuildInvite,
+  resolveInvite,
+  Snowflake,
+  zSnowflake,
+} from "../../../utils";
 import { getTextMatchPartialSummary } from "../functions/getTextMatchPartialSummary";
 import { MatchableTextType, matchMultipleTextTypesOnMessage } from "../functions/matchMultipleTextTypesOnMessage";
 import { automodTrigger } from "../helpers";

@@ -1,8 +1,8 @@
 import { APIEmbed, GuildChannel } from "discord.js";
-import { humanizeDuration } from "../../../humanizeDuration.js";
 import LCL from "last-commit-log";
 import { shuffle } from "lodash";
 import moment from "moment-timezone";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { rootDir } from "../../../paths";
 import { getCurrentUptime } from "../../../uptime";
 import { resolveMember, sorter } from "../../../utils";

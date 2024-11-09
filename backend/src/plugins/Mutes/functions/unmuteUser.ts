@@ -1,10 +1,10 @@
 import { Snowflake } from "discord.js";
-import { humanizeDuration } from "../../../humanizeDuration.js";
 import { GuildPluginData } from "knub";
 import { CaseTypes } from "../../../data/CaseTypes";
 import { AddMuteParams } from "../../../data/GuildMutes";
 import { MuteTypes } from "../../../data/MuteTypes";
 import { Mute } from "../../../data/entities/Mute";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { noop, resolveMember, resolveUser } from "../../../utils";
 import { CasesPlugin } from "../../Cases/CasesPlugin";
 import { CaseArgs } from "../../Cases/types";

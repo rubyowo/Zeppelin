@@ -1,11 +1,11 @@
 import { Snowflake } from "discord.js";
-import { humanizeDuration } from "../../humanizeDuration.js";
 import { PluginOptions, guildPlugin } from "knub";
 import moment from "moment-timezone";
 import { GuildArchives } from "../../data/GuildArchives";
 import { GuildLogs } from "../../data/GuildLogs";
 import { GuildSavedMessages } from "../../data/GuildSavedMessages";
 import { GuildTags } from "../../data/GuildTags";
+import { humanizeDuration } from "../../humanizeDuration.js";
 import { makePublicFn } from "../../pluginUtils";
 import { convertDelayStringToMS } from "../../utils";
 import { LogsPlugin } from "../Logs/LogsPlugin";

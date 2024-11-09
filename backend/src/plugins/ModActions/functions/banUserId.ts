@@ -1,9 +1,9 @@
 import { DiscordAPIError, Snowflake } from "discord.js";
-import { humanizeDuration } from "../../../humanizeDuration.js";
 import { GuildPluginData } from "knub";
 import { CaseTypes } from "../../../data/CaseTypes";
 import { LogType } from "../../../data/LogType";
 import { registerExpiringTempban } from "../../../data/loops/expiringTempbansLoop";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { logger } from "../../../logger";
 import { TemplateParseError, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter";
 import {

@@ -1,7 +1,7 @@
 import { GuildMember, GuildTextBasedChannel, Message, User } from "discord.js";
-import { humanizeDuration } from "../../../humanizeDuration.js";
 import { GuildPluginData } from "knub";
 import { ERRORS, RecoverablePluginError } from "../../../RecoverablePluginError";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { logger } from "../../../logger";
 import { hasPermission, sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils";
 import { UnknownUser, asSingleLine, isDiscordAPIError, renderUsername } from "../../../utils";

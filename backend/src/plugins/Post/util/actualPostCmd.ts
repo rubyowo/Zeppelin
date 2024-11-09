@@ -1,8 +1,8 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
-import { humanizeDuration } from "../../../humanizeDuration.js";
 import { GuildPluginData } from "knub";
 import moment from "moment-timezone";
 import { registerUpcomingScheduledPost } from "../../../data/loops/upcomingScheduledPostsLoop";
+import { humanizeDuration } from "../../../humanizeDuration.js";
 import { sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils";
 import { DBDateFormat, MINUTES, StrictMessageContent, errorMessage, renderUsername } from "../../../utils";
 import { LogsPlugin } from "../../Logs/LogsPlugin";

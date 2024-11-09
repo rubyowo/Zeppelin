@@ -179,7 +179,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         .profiler.addDataPoint(`automod:${pluginData.guild.id}:${ruleName}`, performance.now() - ruleStartTime);
     }
 
-    if ((triggerMatches.length !== 0) && !rule.allow_further_rules) {
+    if (triggerMatches.length !== 0 && !rule.allow_further_rules) {
       break;
     }
   }

@@ -2,7 +2,7 @@ import humanizeduration from "humanize-duration";
 
 export const delayStringMultipliers = {
   y: 1000 * 60 * 60 * 24 * (365 + 1 / 4 - 1 / 100 + 1 / 400), // 365 + 1/4 - 1/100 + 1/400 (leap year rules) = 365.2425 days
-  mo: 1000 * 60 * 60 * 24 * (365 + 1 / 4 - 1 / 100 + 1 / 400) / 12, // 365.2425 / 12 = 30.436875 days
+  mo: (1000 * 60 * 60 * 24 * (365 + 1 / 4 - 1 / 100 + 1 / 400)) / 12, // 365.2425 / 12 = 30.436875 days
   w: 1000 * 60 * 60 * 24 * 7,
   d: 1000 * 60 * 60 * 24,
   h: 1000 * 60 * 60,
@@ -30,5 +30,5 @@ export const humanizeDurationShort = humanizeduration.humanizer({
 });
 
 export const humanizeDuration = humanizeduration.humanizer({
-  unitMeasures: delayStringMultipliers
-})
+  unitMeasures: delayStringMultipliers,
+});
