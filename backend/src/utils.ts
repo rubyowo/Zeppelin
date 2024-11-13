@@ -515,8 +515,8 @@ export function sleep(ms: number): Promise<void> {
   });
 }
 
-const realLinkRegex = /https?:\/\/\S+/; // http://anything or https://anything
-const plainLinkRegex = /((?!https?:\/\/)\S)+\.\S+/; // anything.anything, without http:// or https:// preceding it
+const realLinkRegex = /https?:\/\/(\w*-?\w+\.[a-z]{2,}\S*(?<=[\w\/]))/; // http://anything or https://anything
+const plainLinkRegex = /\b(\w*-?\w+\.[a-z]{2,}\S*(?<=[\w\/]))/; // anything.anything, without http:// or https:// preceding it
 // Both of the above, with precedence on the first one
 const urlRegex = new RegExp(`(${realLinkRegex.source}|${plainLinkRegex.source})`, "g");
 const protocolRegex = /^[a-z]+:\/\//;
@@ -543,11 +543,6 @@ export function getUrlsInString(str: string, onlyUnique = false): MatchedURL[] {
     }
 
     let hostname = matchUrl.hostname.toLowerCase();
-
-    if (hostname.length > 3) {
-      hostname = hostname.replace(/[^a-z]+$/, "");
-    }
-
     const hostnameParts = hostname.split(".");
     const tld = hostnameParts[hostnameParts.length - 1];
     if (tlds.includes(tld)) {
