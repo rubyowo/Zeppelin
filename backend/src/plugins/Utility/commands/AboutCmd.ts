@@ -5,105 +5,126 @@ import moment from "moment-timezone";
 import { humanizeDuration } from "../../../humanizeDuration.js";
 import { rootDir } from "../../../paths";
 import { getCurrentUptime } from "../../../uptime";
-import { resolveMember, sorter } from "../../../utils";
+import {
+	resolveMember,
+	sorter,
+	toRelativeNativeTimestamp,
+} from "../../../utils";
 import { TimeAndDatePlugin } from "../../TimeAndDate/TimeAndDatePlugin";
 import { utilityCmd } from "../types";
 
 export const AboutCmd = utilityCmd({
-  trigger: "about",
-  description: "Show information about Zeppelin's status on the server",
-  permission: "can_about",
+	trigger: "about",
+	description: "Show information about Zeppelin's status on the server",
+	permission: "can_about",
 
-  async run({ message: msg, pluginData }) {
-    const timeAndDate = pluginData.getPlugin(TimeAndDatePlugin);
+	async run({ message: msg, pluginData }) {
+		const timeAndDate = pluginData.getPlugin(TimeAndDatePlugin);
 
-    const uptime = getCurrentUptime();
-    const prettyUptime = humanizeDuration(uptime, { largest: 2, round: true });
+		const uptime = getCurrentUptime();
+		const prettyUptime = humanizeDuration(uptime, { largest: 2, round: true });
 
-    let lastCommit;
+		let lastCommit;
 
-    try {
-      const lcl = new LCL(rootDir);
-      lastCommit = await lcl.getLastCommit();
-    } catch {} // eslint-disable-line no-empty
+		try {
+			const lcl = new LCL(rootDir);
+			lastCommit = await lcl.getLastCommit();
+		} catch {} // eslint-disable-line no-empty
 
-    let lastUpdate;
-    let version;
+		let lastUpdate;
+		let version;
 
-    if (lastCommit) {
-      lastUpdate = timeAndDate
-        .inGuildTz(moment.utc(lastCommit.committer.date, "X"))
-        .format(pluginData.getPlugin(TimeAndDatePlugin).getDateFormat("pretty_datetime"));
-      version = lastCommit.shortHash;
-    } else {
-      lastUpdate = "?";
-      version = "?";
-    }
+		if (lastCommit) {
+			lastUpdate = toRelativeNativeTimestamp(
+				moment.utc(lastCommit.committer.data, "X"),
+				0,
+			);
+			version = lastCommit.shortHash;
+		} else {
+			lastUpdate = "?";
+			version = "?";
+		}
 
-    const lastReload = humanizeDuration(Date.now() - pluginData.state.lastReload, {
-      largest: 2,
-      round: true,
-    });
+		const lastReload = toRelativeNativeTimestamp(
+			pluginData.state.lastReload,
+			0,
+		);
 
-    const basicInfoRows = [
-      ["Uptime", prettyUptime],
-      ["Last config reload", `${lastReload} ago`],
-      ["Last bot update", lastUpdate],
-      ["Version", version],
-      ["API latency", `${pluginData.client.ping}ms`],
-      ["Server timezone", timeAndDate.getGuildTz()],
-    ];
+		const basicInfoRows = [
+			["Uptime", prettyUptime],
+			["Last config reload", lastReload],
+			["Last bot update", lastUpdate],
+			["Version", version],
+			["API latency", `${pluginData.client.ping}ms`],
+			["Server timezone", timeAndDate.getGuildTz()],
+		];
 
-    const loadedPlugins = Array.from(
-      pluginData.getKnubInstance().getLoadedGuild(pluginData.guild.id)!.loadedPlugins.keys(),
-    );
-    loadedPlugins.sort();
+		const loadedPlugins = Array.from(
+			pluginData
+				.getKnubInstance()
+				.getLoadedGuild(pluginData.guild.id)!
+				.loadedPlugins.keys(),
+		);
+		loadedPlugins.sort();
 
-    const aboutEmbed: APIEmbed = {
-      title: `About ${pluginData.client.user!.username}`,
-      fields: [
-        {
-          name: "Status",
-          value: basicInfoRows.map(([label, value]) => `${label}: **${value}**`).join("\n"),
-        },
-        {
-          name: `Loaded plugins on this server (${loadedPlugins.length})`,
-          value: loadedPlugins.join(", "),
-        },
-      ],
-    };
+		const aboutEmbed: APIEmbed = {
+			title: `About ${pluginData.client.user!.username}`,
+			fields: [
+				{
+					name: "Status",
+					value: basicInfoRows
+						.map(([label, value]) => `${label}: **${value}**`)
+						.join("\n"),
+				},
+				{
+					name: `Loaded plugins on this server (${loadedPlugins.length})`,
+					value: loadedPlugins.join(", "),
+				},
+			],
+		};
 
-    const supporters = await pluginData.state.supporters.getAll();
-    const shuffledSupporters = shuffle(supporters);
+		const supporters = await pluginData.state.supporters.getAll();
+		const shuffledSupporters = shuffle(supporters);
 
-    if (supporters.length) {
-      const formattedSupporters = shuffledSupporters
-        // Bold every other supporter to make them easy to recognize from each other
-        .map((s, i) => (i % 2 === 0 ? `**${s.name}**` : `__${s.name}__`))
-        .join(" ");
+		if (supporters.length) {
+			const formattedSupporters = shuffledSupporters
+				// Bold every other supporter to make them easy to recognize from each other
+				.map((s, i) => (i % 2 === 0 ? `**${s.name}**` : `__${s.name}__`))
+				.join(" ");
 
-      aboutEmbed.fields!.push({
-        name: "Zeppelin supporters 🎉",
-        value: "These amazing people have supported Zeppelin development:\n\n" + formattedSupporters,
-        inline: false,
-      });
-    }
+			aboutEmbed.fields!.push({
+				name: "Zeppelin supporters 🎉",
+				value:
+					"These amazing people have supported Zeppelin development:\n\n" +
+					formattedSupporters,
+				inline: false,
+			});
+		}
 
-    // For the embed color, find the highest colored role the bot has - this is their color on the server as well
-    const botMember = await resolveMember(pluginData.client, pluginData.guild, pluginData.client.user!.id);
-    let botRoles = botMember?.roles.cache.map((r) => (msg.channel as GuildChannel).guild.roles.cache.get(r.id)!) || [];
-    botRoles = botRoles.filter((r) => !!r); // Drop any unknown roles
-    botRoles = botRoles.filter((r) => r.color); // Filter to those with a color
-    botRoles.sort(sorter("position", "DESC")); // Sort by position (highest first)
-    if (botRoles.length) {
-      aboutEmbed.color = botRoles[0].color;
-    }
+		// For the embed color, find the highest colored role the bot has - this is their color on the server as well
+		const botMember = await resolveMember(
+			pluginData.client,
+			pluginData.guild,
+			pluginData.client.user!.id,
+		);
+		let botRoles =
+			botMember?.roles.cache.map(
+				(r) => (msg.channel as GuildChannel).guild.roles.cache.get(r.id)!,
+			) || [];
+		botRoles = botRoles.filter((r) => !!r); // Drop any unknown roles
+		botRoles = botRoles.filter((r) => r.color); // Filter to those with a color
+		botRoles.sort(sorter("position", "DESC")); // Sort by position (highest first)
+		if (botRoles.length) {
+			aboutEmbed.color = botRoles[0].color;
+		}
 
-    // Use the bot avatar as the embed image
-    if (pluginData.client.user!.displayAvatarURL()) {
-      aboutEmbed.thumbnail = { url: pluginData.client.user!.displayAvatarURL()! };
-    }
+		// Use the bot avatar as the embed image
+		if (pluginData.client.user!.displayAvatarURL()) {
+			aboutEmbed.thumbnail = {
+				url: pluginData.client.user!.displayAvatarURL()!,
+			};
+		}
 
-    msg.channel.send({ embeds: [aboutEmbed] });
-  },
+		msg.channel.send({ embeds: [aboutEmbed] });
+	},
 });

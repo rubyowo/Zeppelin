@@ -5,7 +5,7 @@ import { clearExpiringTempban, registerExpiringTempban } from "../../../data/loo
 import { humanizeDuration } from "../../../humanizeDuration.js";
 import { canActOn, hasPermission, sendErrorMessage, sendSuccessMessage } from "../../../pluginUtils";
 import { CasesPlugin } from "../../../plugins/Cases/CasesPlugin";
-import { renderUsername, resolveMember, resolveUser } from "../../../utils";
+import { renderUsername, resolveMember, resolveUser, toRelativeNativeTimestamp } from "../../../utils";
 import { banLock } from "../../../utils/lockNameHelpers";
 import { waitForButtonConfirm } from "../../../utils/waitForInteraction";
 import { LogsPlugin } from "../../Logs/LogsPlugin";
@@ -56,7 +56,12 @@ export const BanCmd = modActionsCmd({
     // The moderator who did the action is the message author or, if used, the specified -mod
     let mod = msg.member;
     if (args.mod) {
-      if (!(await hasPermission(pluginData, "can_act_as_other", { message: msg, channelId: msg.channel.id }))) {
+      if (
+        !(await hasPermission(pluginData, "can_act_as_other", {
+          message: msg,
+          channelId: msg.channel.id,
+        }))
+      ) {
         sendErrorMessage(pluginData, msg.channel, "You don't have permission to use -mod");
         return;
       }
@@ -109,7 +114,7 @@ export const BanCmd = modActionsCmd({
             type: CaseTypes.Ban,
             userId: user.id,
             reason,
-            noteDetails: [`Ban updated to ${time ? humanizeDuration(time) : "indefinite"}`],
+            noteDetails: [`Ban updated to ${time ? `expire ${toRelativeNativeTimestamp(time)}` : "indefinite"}`],
           });
           if (time) {
             pluginData.getPlugin(LogsPlugin).logMemberTimedBan({
@@ -131,7 +136,7 @@ export const BanCmd = modActionsCmd({
           sendSuccessMessage(
             pluginData,
             msg.channel,
-            `Ban updated to ${time ? "expire in " + humanizeDuration(time) + " from now" : "indefinite"}`,
+            `Ban updated to ${time ? `expire ${toRelativeNativeTimestamp(time)}` : "indefinite"}`,
           );
           lock.unlock();
           return;
