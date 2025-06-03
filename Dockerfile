@@ -18,7 +18,7 @@ COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
 
-RUN npm ci
+RUN npm i
 
 COPY --chown=node:node . /zeppelin
 
