@@ -3,7 +3,7 @@ FROM node:24-alpine AS build
 RUN mkdir /zeppelin
 RUN chown node:node /zeppelin
 
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 
 USER node
 
