@@ -1,4 +1,4 @@
-FROM node:24 AS build
+FROM node:24-alpine AS build
 
 RUN mkdir /zeppelin
 RUN chown node:node /zeppelin
@@ -6,7 +6,7 @@ RUN chown node:node /zeppelin
 USER node
 
 # Install dependencies before copying over any other files
-COPY --chown=node:node package.json package-lock.json /zeppelin
+COPY --chown=node:node package.json package-lock.json /zeppelin/
 RUN mkdir /zeppelin/backend
 COPY --chown=node:node backend/package.json /zeppelin/backend
 RUN mkdir /zeppelin/shared
@@ -15,6 +15,7 @@ RUN mkdir /zeppelin/dashboard
 COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
+
 RUN npm ci
 
 COPY --chown=node:node . /zeppelin
