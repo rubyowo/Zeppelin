@@ -16,7 +16,7 @@ COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
 
-RUN apk add --nocache python make g++
+RUN apk add python make g++
 
 RUN npm ci
 
