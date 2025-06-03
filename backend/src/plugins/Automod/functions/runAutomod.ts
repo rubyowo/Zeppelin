@@ -144,6 +144,10 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
       (rule.require_all_triggers && triggerMatches.length === rule.triggers.length) ||
       (!rule.require_all_triggers && triggerMatches.length !== 0)
     ) {
+      const matchResult = triggerMatches.at(-1)
+      if (!matchResult) {
+        continue
+      }
       for (const [actionName, actionConfig] of Object.entries(rule.actions)) {
         if (actionConfig == null || actionConfig === false) {
           continue;
@@ -160,7 +164,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
           pluginData,
           contexts,
           actionConfig,
-          matchResult: triggerMatches.at(-1),
+          matchResult,
           prettyName,
         });
 

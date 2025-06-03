@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@silvia-odwyer/photon-node": "^0.3.1",
+    "@twemoji/api": "^16.0.1",
     "bufferutil": "^4.0.3",
     "clinic": "^13.0.0",
     "cors": "^2.8.5",
@@ -69,7 +70,6 @@
     "tlds": "^1.221.1",
     "tmp": "0.0.33",
     "tsconfig-paths": "^3.9.0",
-    "@twemoji/api": "^15.1.0",
     "typeorm": "^0.3.17",
     "utf-8-validate": "^5.0.5",
     "uuid": "^9.0.0",

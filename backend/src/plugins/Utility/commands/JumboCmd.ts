@@ -1,7 +1,7 @@
 import photon from "@silvia-odwyer/photon-node";
-import twemoji from "@twemoji/api";
+import twemoji from "@twemoji/api/dist/twemoji.npm.js";
 import { AttachmentBuilder } from "discord.js";
-import fs from "fs";
+import fs from "node:fs";
 import { commandTypeHelpers as ct } from "../../../commandTypes.js";
 import { downloadFile, isEmoji, SECONDS } from "../../../utils.js";
 import { utilityCmd } from "../types.js";
@@ -44,7 +44,7 @@ export const JumboCmd = utilityCmd({
     // Get emoji url
     const config = pluginData.config.get();
     const size = config.jumbo_size > 2048 ? 2048 : config.jumbo_size;
-    const emojiRegex = new RegExp(`(<.*:).*:(\\d+)`);
+    const emojiRegex = /(<.*:).*:(\d+)/;
     const results = emojiRegex.exec(args.emoji);
     let extension = ".png";
     let file: AttachmentBuilder | undefined;
@@ -75,7 +75,7 @@ export const JumboCmd = utilityCmd({
         image = resizeBuffer(downloadedBuffer, size, size);
       } catch (err) {
         if (url.toLocaleLowerCase().endsWith("fe0f.png")) {
-          url = url.slice(0, url.lastIndexOf("-fe0f")) + ".png";
+          url = `${url.slice(0, url.lastIndexOf("-fe0f"))}.png`;
           try {
             image = resizeBuffer(await getBufferFromUrl(url), size, size);
           } catch {
