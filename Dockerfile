@@ -3,12 +3,10 @@ FROM node:24 AS build
 RUN mkdir /zeppelin
 RUN chown node:node /zeppelin
 
-#RUN apk add --no-cache python3 make g++
-
 USER node
 
 # Install dependencies before copying over any other files
-COPY --chown=node:node package.json package-lock.json /zeppelin/
+COPY --chown=node:node package.json package-lock.json /zeppelin
 RUN mkdir /zeppelin/backend
 COPY --chown=node:node backend/package.json /zeppelin/backend
 RUN mkdir /zeppelin/shared
@@ -17,8 +15,7 @@ RUN mkdir /zeppelin/dashboard
 COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
-
-RUN npm i
+RUN npm ci
 
 COPY --chown=node:node . /zeppelin
 
@@ -34,7 +31,7 @@ RUN npm run build
 WORKDIR /zeppelin
 RUN npm prune --omit=dev
 
-FROM node:24 AS main
+FROM node:24-alpine AS main
 
 USER node
 COPY --from=build --chown=node:node /zeppelin /zeppelin
