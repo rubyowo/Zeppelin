@@ -28,8 +28,7 @@
     "vue-tsc": "^2.2.10",
     "vue3-ace-editor": "^2.2.4",
     "vue3-highlightjs": "^1.0.5",
-    "vuex": "^4.1.0",
-    "@rollup/rollup-linux-arm64-musl": "^4.41.1"
+    "vuex": "^4.1.0"
   },
   "dependencies": {
     "@fastify/static": "^7.0.1",
