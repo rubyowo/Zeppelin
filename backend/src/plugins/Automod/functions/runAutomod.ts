@@ -58,6 +58,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
     let matchResult: AutomodTriggerMatchResult<any> | null | undefined;
     let contexts: AutomodContext[] = [];
 
+    const triggerMatches: AutomodTriggerMatchResult[] = [];
     triggerLoop: for (const triggerItem of rule.triggers) {
       for (const [triggerName, triggerConfig] of Object.entries(triggerItem)) {
         const triggerStartTime = performance.now();
@@ -89,7 +90,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         if (matchResult) {
           if (rule.cooldown) applyCooldown(pluginData, rule, ruleName, context);
 
-          contexts = [context, ...(matchResult.extraContexts || [])];
+          contexts = contexts.concat([context, ...(matchResult.extraContexts || [])]);
 
           for (const _context of contexts) {
             _context.actioned = true;
@@ -131,18 +132,26 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         }
 
         if (matchResult) {
-          break triggerLoop;
+          triggerMatches.push(matchResult);
+          if (!rule.require_all_triggers) {
+            break triggerLoop;
+          }
         }
       }
     }
 
-    if (matchResult) {
+    if (
+      (rule.require_all_triggers && triggerMatches.length === rule.triggers.length) ||
+      (!rule.require_all_triggers && triggerMatches.length !== 0)
+    ) {
       for (const [actionName, actionConfig] of Object.entries(rule.actions)) {
         if (actionConfig == null || actionConfig === false) {
           continue;
         }
 
         const actionStartTime = performance.now();
+
+        console.log(contexts);
 
         const action = availableActions[actionName];
 
@@ -151,7 +160,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
           pluginData,
           contexts,
           actionConfig,
-          matchResult,
+          matchResult: triggerMatches.at(-1),
           prettyName,
         });
 
@@ -184,7 +193,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         .profiler.addDataPoint(`automod:${pluginData.guild.id}:${ruleName}`, performance.now() - ruleStartTime);
     }
 
-    if (matchResult && !rule.allow_further_rules) {
+    if ((triggerMatches.length !== 0) && !rule.allow_further_rules) {
       break;
     }
   }
