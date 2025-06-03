@@ -3,6 +3,8 @@ FROM node:24-alpine AS build
 RUN mkdir /zeppelin
 RUN chown node:node /zeppelin
 
+RUN apk add python make g++
+
 USER node
 
 # Install dependencies before copying over any other files
@@ -15,8 +17,6 @@ RUN mkdir /zeppelin/dashboard
 COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
-
-RUN apk add python make g++
 
 RUN npm ci
 
