@@ -1,9 +1,9 @@
-FROM node:24-alpine AS build
+FROM node:24 AS build
 
 RUN mkdir /zeppelin
 RUN chown node:node /zeppelin
 
-RUN apk add --no-cache python3 make g++
+#RUN apk add --no-cache python3 make g++
 
 USER node
 
@@ -34,7 +34,7 @@ RUN npm run build
 WORKDIR /zeppelin
 RUN npm prune --omit=dev
 
-FROM node:24-alpine AS main
+FROM node:24 AS main
 
 USER node
 COPY --from=build --chown=node:node /zeppelin /zeppelin
