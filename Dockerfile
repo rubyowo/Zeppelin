@@ -31,7 +31,7 @@ RUN npm run build
 WORKDIR /zeppelin
 RUN npm prune --omit=dev
 
-FROM node:24-alpine AS main
+FROM --platform=linux/arm64 node:24-alpine AS main
 
 USER node
 COPY --from=build --chown=node:node /zeppelin /zeppelin
