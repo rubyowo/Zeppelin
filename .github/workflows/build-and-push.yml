@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - 'coolify'
+    paths:
+      - backend/**
+      - dashboard/**
+      - shared/**
+      - Dockerfile
 
 jobs:
   docker:
