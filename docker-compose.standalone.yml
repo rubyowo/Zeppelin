@@ -33,7 +33,7 @@ services:
 #      - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:443"
 
   migrate:
-    image: ghcr.io/rubyowo/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:coolify
     depends_on:
       mysql:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
     command: ["npm", "run", "migrate-prod"]
 
   api:
-    image: ghcr.io/rubyowo/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:coolify
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -63,7 +63,7 @@ services:
     command: ["npm", "run", "start-api-prod"]
 
   bot:
-    image: ghcr.io/rubyowo/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:coolify
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -75,7 +75,7 @@ services:
     command: ["npm", "run", "start-bot-prod"]
   
   dashboard:
-    image: ghcr.io/rubyowo/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:coolify
     depends_on:
       migrate:
         condition: service_completed_successfully
