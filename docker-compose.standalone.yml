@@ -1,10 +1,9 @@
-version: '3'
 name: zeppelin-prod
 volumes:
   mysql-data:
 services:
   mysql:
-    image: mysql:8.0
+    image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: ${STANDALONE_MYSQL_ROOT_PASSWORD?:Missing STANDALONE_MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: zeppelin
@@ -20,7 +19,7 @@ services:
     command:
       - "--skip-log-bin"
     healthcheck:
-      test: "/usr/bin/mysql --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
+      test: "/usr/bin/mariadb --host=127.0.0.1 --user=root --password=\"${STANDALONE_MYSQL_ROOT_PASSWORD}\" --execute \"SHOW DATABASES;\""
       interval: 1s
       timeout: 5s
       retries: 60
