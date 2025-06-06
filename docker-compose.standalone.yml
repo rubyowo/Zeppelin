@@ -48,6 +48,7 @@ services:
       - .env
     working_dir: /zeppelin/backend
     command: ["npm", "run", "migrate-prod"]
+    restart: no
 
   api:
     image: ghcr.io/rubyowo/zeppelin:coolify
