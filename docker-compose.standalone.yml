@@ -43,7 +43,7 @@ services:
       - DB_USER=zeppelin
       - DB_PASSWORD=${STANDALONE_MYSQL_PASSWORD}
       - DB_DATABASE=zeppelin
-      - API_PATH_PREFIX=/api
+      - API_PATH_PREFIX=/
     env_file:
       - .env
     working_dir: /zeppelin/backend
