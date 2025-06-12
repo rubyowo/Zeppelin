@@ -16,7 +16,6 @@ COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
 RUN npm install
-RUN npm install @rollup/rollup-linux-arm64-gnu lightningcss-linux-arm64-gnu @tailwindcss/oxide-linux-arm64-gnu
 
 COPY --chown=node:node . /zeppelin
 

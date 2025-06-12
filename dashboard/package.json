@@ -36,5 +36,10 @@
   },
   "browserslist": [
     "last 2 Chrome versions"
-  ]
+  ],
+  "optionalDependencies": {
+    "@rollup/rollup-linux-arm64-gnu": "^4.43.0",
+    "@tailwindcss/oxide-linux-arm64-gnu": "^4.1.10",
+    "lightningcss-linux-arm64-gnu": "^1.30.1"
+  }
 }
