@@ -15,6 +15,7 @@ RUN mkdir /zeppelin/dashboard
 COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
+RUN npm install --package-lock-only
 RUN npm ci
 
 COPY --chown=node:node . /zeppelin
@@ -31,7 +32,7 @@ RUN npm run build
 WORKDIR /zeppelin
 RUN npm prune --omit=dev
 
-FROM --platform=linux/arm64 node:24-alpine AS main
+FROM node:24-alpine AS main
 
 USER node
 COPY --from=build --chown=node:node /zeppelin /zeppelin
