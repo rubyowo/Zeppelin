@@ -6,7 +6,7 @@ RUN chown node:node /zeppelin
 USER node
 
 # Install dependencies before copying over any other files
-COPY --chown=node:node package.json package-lock.json /zeppelin
+COPY --chown=node:node package.json package-lock.json /zeppelin/
 RUN mkdir /zeppelin/backend
 COPY --chown=node:node backend/package.json /zeppelin/backend
 RUN mkdir /zeppelin/shared
@@ -17,6 +17,7 @@ COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 WORKDIR /zeppelin
 RUN npm ci
 RUN npm install @rollup/rollup-linux-arm64-gnu
+RUN npm install lightningcss-linux-arm64-gnu
 
 COPY --chown=node:node . /zeppelin
 
