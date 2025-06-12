@@ -33,6 +33,8 @@ services:
 
   migrate:
     image: ghcr.io/rubyowo/zeppelin:coolify
+    # Pull new image every deployment
+    pull_policy: always
     depends_on:
       mysql:
         condition: service_healthy
@@ -52,6 +54,8 @@ services:
 
   api:
     image: ghcr.io/rubyowo/zeppelin:coolify
+    # Pull new image every deployment
+    pull_policy: always
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -64,6 +68,8 @@ services:
 
   bot:
     image: ghcr.io/rubyowo/zeppelin:coolify
+    # Pull new image every deployment
+    pull_policy: always
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -76,6 +82,8 @@ services:
   
   dashboard:
     image: ghcr.io/rubyowo/zeppelin:coolify
+    # Pull new image every deployment
+    pull_policy: always
     depends_on:
       migrate:
         condition: service_completed_successfully
