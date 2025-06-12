@@ -16,17 +16,16 @@ COPY --chown=node:node dashboard/package.json /zeppelin/dashboard
 
 WORKDIR /zeppelin
 RUN npm ci
-RUN npm install @rollup/rollup-linux-arm64-gnu
-RUN npm install lightningcss-linux-arm64-gnu
+RUN npm install @rollup/rollup-linux-arm64-gnu lightningcss-linux-arm64-gnu @tailwindcss/oxide-linux-arm64-gnu
 
 COPY --chown=node:node . /zeppelin
 
-# Build backend
-WORKDIR /zeppelin/backend
-RUN npm run build
-
 # Build dashboard
 WORKDIR /zeppelin/dashboard
+RUN npm run build
+
+# Build backend
+WORKDIR /zeppelin/backend
 RUN npm run build
 
 # Prune dev dependencies
