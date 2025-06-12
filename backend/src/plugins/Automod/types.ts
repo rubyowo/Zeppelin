@@ -1,10 +1,4 @@
-import {
-	GuildMember,
-	GuildTextBasedChannel,
-	PartialGuildMember,
-	ThreadChannel,
-	User,
-} from "discord.js";
+import { GuildMember, GuildTextBasedChannel, PartialGuildMember, ThreadChannel, User } from "discord.js";
 import { BasePluginType, CooldownManager, pluginUtils } from "knub";
 import z from "zod/v4";
 import { Queue } from "../../Queue.js";
@@ -26,172 +20,167 @@ import { availableTriggers } from "./triggers/availableTriggers.js";
 import Timeout = NodeJS.Timeout;
 
 export type ZTriggersMapHelper = {
-	[TriggerName in keyof typeof availableTriggers]: (typeof availableTriggers)[TriggerName]["configSchema"];
+  [TriggerName in keyof typeof availableTriggers]: (typeof availableTriggers)[TriggerName]["configSchema"];
 };
 const zTriggersMap = z
-	.strictObject(
-		entries(availableTriggers).reduce((map, [triggerName, trigger]) => {
-			map[triggerName] = trigger.configSchema;
-			return map;
-		}, {} as ZTriggersMapHelper),
-	)
-	.partial();
+  .strictObject(
+    entries(availableTriggers).reduce((map, [triggerName, trigger]) => {
+      map[triggerName] = trigger.configSchema;
+      return map;
+    }, {} as ZTriggersMapHelper),
+  )
+  .partial();
 
 type ZActionsMapHelper = {
-	[ActionName in keyof typeof availableActions]: (typeof availableActions)[ActionName]["configSchema"];
+  [ActionName in keyof typeof availableActions]: (typeof availableActions)[ActionName]["configSchema"];
 };
 const zActionsMap = z
-	.strictObject(
-		entries(availableActions).reduce((map, [actionName, action]) => {
-			// @ts-expect-error TS can't infer this properly but it works fine thanks to our helper
-			map[actionName] = action.configSchema;
-			return map;
-		}, {} as ZActionsMapHelper),
-	)
-	.partial();
+  .strictObject(
+    entries(availableActions).reduce((map, [actionName, action]) => {
+      // @ts-expect-error TS can't infer this properly but it works fine thanks to our helper
+      map[actionName] = action.configSchema;
+      return map;
+    }, {} as ZActionsMapHelper),
+  )
+  .partial();
 
 const zRule = z.strictObject({
-	enabled: z.boolean().default(true),
-	pretty_name: z.string().optional(),
-	presets: z.array(z.string().max(100)).max(25).default([]),
-	affects_bots: z.boolean().default(false),
-	affects_self: z.boolean().default(false),
-	cooldown: zDelayString.nullable().default(null),
-	allow_further_rules: z.boolean().default(false),
-	triggers: z.array(zTriggersMap),
-	require_all_triggers: z.boolean().default(false),
-	actions: zActionsMap,
+  enabled: z.boolean().default(true),
+  pretty_name: z.string().optional(),
+  presets: z.array(z.string().max(100)).max(25).default([]),
+  affects_bots: z.boolean().default(false),
+  affects_self: z.boolean().default(false),
+  cooldown: zDelayString.nullable().default(null),
+  allow_further_rules: z.boolean().default(false),
+  triggers: z.array(zTriggersMap),
+  require_all_triggers: z.boolean().default(false),
+  actions: zActionsMap,
 });
 export type TRule = z.infer<typeof zRule>;
 
 export const zAutomodConfig = z.strictObject({
-	rules: zBoundedRecord(z.record(z.string().max(100), zRule), 0, 255).default(
-		{},
-	),
-	antiraid_levels: z
-		.array(z.string().max(100))
-		.max(10)
-		.default(["low", "medium", "high"]),
-	can_set_antiraid: z.boolean().default(false),
-	can_view_antiraid: z.boolean().default(false),
+  rules: zBoundedRecord(z.record(z.string().max(100), zRule), 0, 255).default({}),
+  antiraid_levels: z.array(z.string().max(100)).max(10).default(["low", "medium", "high"]),
+  can_set_antiraid: z.boolean().default(false),
+  can_view_antiraid: z.boolean().default(false),
 });
 
 export interface AutomodPluginType extends BasePluginType {
-	configSchema: typeof zAutomodConfig;
+  configSchema: typeof zAutomodConfig;
 
-	customOverrideCriteria: {
-		antiraid_level?: string;
-	};
+  customOverrideCriteria: {
+    antiraid_level?: string;
+  };
 
-	state: {
-		/**
-		 * Automod checks/actions are handled in a queue so we don't get overlap on the same user
-		 */
-		queue: Queue;
+  state: {
+    /**
+     * Automod checks/actions are handled in a queue so we don't get overlap on the same user
+     */
+    queue: Queue;
 
-		/**
-		 * Per-server regex runner
-		 */
-		regexRunner: RegExpRunner;
+    /**
+     * Per-server regex runner
+     */
+    regexRunner: RegExpRunner;
 
-		/**
-		 * Recent actions are used for spam triggers
-		 */
-		recentActions: RecentAction[];
-		clearRecentActionsInterval: Timeout;
+    /**
+     * Recent actions are used for spam triggers
+     */
+    recentActions: RecentAction[];
+    clearRecentActionsInterval: Timeout;
 
-		/**
-		 * After a spam trigger is tripped and the rule's action carried out, a unique identifier is placed here so further
-		 * spam (either messages that were sent before the bot managed to mute the user or, with global spam, other users
-		 * continuing to spam) is "included" in the same match and doesn't generate duplicate cases or logs.
-		 * Key: rule_name-match_identifier
-		 */
-		recentSpam: RecentSpam[];
-		clearRecentSpamInterval: Timeout;
+    /**
+     * After a spam trigger is tripped and the rule's action carried out, a unique identifier is placed here so further
+     * spam (either messages that were sent before the bot managed to mute the user or, with global spam, other users
+     * continuing to spam) is "included" in the same match and doesn't generate duplicate cases or logs.
+     * Key: rule_name-match_identifier
+     */
+    recentSpam: RecentSpam[];
+    clearRecentSpamInterval: Timeout;
 
-		recentNicknameChanges: Map<string, { timestamp: number }>;
-		clearRecentNicknameChangesInterval: Timeout;
+    recentNicknameChanges: Map<string, { timestamp: number }>;
+    clearRecentNicknameChangesInterval: Timeout;
 
-		ignoredRoleChanges: Set<{
-			memberId: string;
-			roleId: string;
-			timestamp: number;
-		}>;
+    ignoredRoleChanges: Set<{
+      memberId: string;
+      roleId: string;
+      timestamp: number;
+    }>;
 
-		cachedAntiraidLevel: string | null;
+    cachedAntiraidLevel: string | null;
 
-		cooldownManager: CooldownManager;
+    cooldownManager: CooldownManager;
 
-		savedMessages: GuildSavedMessages;
-		logs: GuildLogs;
-		antiraidLevels: GuildAntiraidLevels;
-		archives: GuildArchives;
+    savedMessages: GuildSavedMessages;
+    logs: GuildLogs;
+    antiraidLevels: GuildAntiraidLevels;
+    archives: GuildArchives;
 
-		onMessageCreateFn: any;
-		onMessageUpdateFn: any;
+    onMessageCreateFn: any;
+    onMessageUpdateFn: any;
 
-		onCounterTrigger: CounterEvents["trigger"];
-		onCounterReverseTrigger: CounterEvents["reverseTrigger"];
+    onCounterTrigger: CounterEvents["trigger"];
+    onCounterReverseTrigger: CounterEvents["reverseTrigger"];
 
-		modActionsListeners: Map<keyof ModActionsEvents, any>;
-		mutesListeners: Map<keyof MutesEvents, any>;
+    modActionsListeners: Map<keyof ModActionsEvents, any>;
+    mutesListeners: Map<keyof MutesEvents, any>;
 
-		common: pluginUtils.PluginPublicInterface<typeof CommonPlugin>;
-	};
+    common: pluginUtils.PluginPublicInterface<typeof CommonPlugin>;
+  };
 }
 
 export interface AutomodContext {
-	timestamp: number;
-	actioned?: boolean;
+  timestamp: number;
+  actioned?: boolean;
 
-	counterTrigger?: {
-		counter: string;
-		trigger: string;
-		prettyCounter: string;
-		prettyTrigger: string;
-		channelId: string | null;
-		userId: string | null;
-		reverse: boolean;
-	};
-	user?: User;
-	message?: SavedMessage;
-	member?: GuildMember;
-	partialMember?: GuildMember | PartialGuildMember;
-	joined?: boolean;
-	rolesChanged?: {
-		added?: string[];
-		removed?: string[];
-	};
-	modAction?: {
-		type: ModActionType;
-		reason?: string;
-		isAutomodAction: boolean;
-	};
-	antiraid?: {
-		level: string | null;
-		oldLevel?: string | null;
-	};
-	threadChange?: {
-		created?: ThreadChannel;
-		deleted?: ThreadChannel;
-		archived?: ThreadChannel;
-		unarchived?: ThreadChannel;
-		locked?: ThreadChannel;
-		unlocked?: ThreadChannel;
-	};
-	channel?: GuildTextBasedChannel;
+  counterTrigger?: {
+    counter: string;
+    trigger: string;
+    prettyCounter: string;
+    prettyTrigger: string;
+    channelId: string | null;
+    userId: string | null;
+    reverse: boolean;
+  };
+  user?: User;
+  message?: SavedMessage;
+  member?: GuildMember;
+  partialMember?: GuildMember | PartialGuildMember;
+  joined?: boolean;
+  rolesChanged?: {
+    added?: string[];
+    removed?: string[];
+  };
+  modAction?: {
+    type: ModActionType;
+    reason?: string;
+    isAutomodAction: boolean;
+  };
+  antiraid?: {
+    level: string | null;
+    oldLevel?: string | null;
+  };
+  threadChange?: {
+    created?: ThreadChannel;
+    deleted?: ThreadChannel;
+    archived?: ThreadChannel;
+    unarchived?: ThreadChannel;
+    locked?: ThreadChannel;
+    unlocked?: ThreadChannel;
+  };
+  channel?: GuildTextBasedChannel;
 }
 
 export interface RecentAction {
-	type: RecentActionType;
-	identifier: string | null;
-	count: number;
-	context: AutomodContext;
+  type: RecentActionType;
+  identifier: string | null;
+  count: number;
+  context: AutomodContext;
 }
 
 export interface RecentSpam {
-	archiveId: string | null;
-	type: RecentActionType;
-	identifiers: string[];
-	timestamp: number;
+  archiveId: string | null;
+  type: RecentActionType;
+  identifiers: string[];
+  timestamp: number;
 }

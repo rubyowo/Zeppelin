@@ -26,7 +26,7 @@ export class GuildSavedMessages extends BaseGuildRepository<SavedMessage> {
 
   protected msgToSavedMessageData(msg: Message): ISavedMessageData {
     if (msg.reference?.type === MessageReferenceType.Forward && msg.reference.messageId) {
-      const realMsg = msg.messageSnapshots.get(msg.reference.messageId)
+      const realMsg = msg.messageSnapshots.get(msg.reference.messageId);
       if (realMsg) {
         msg.content = realMsg.content;
         msg.attachments = realMsg.attachments;

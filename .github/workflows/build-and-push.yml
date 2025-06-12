@@ -5,6 +5,8 @@ on:
     branches:
       - 'coolify'
     paths:
+      - "package.json"
+      - "package-lock.json"
       - backend/**
       - dashboard/**
       - shared/**

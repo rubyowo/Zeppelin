@@ -33,12 +33,12 @@ export const ReplyAction = automodAction({
     const contextsWithTextChannels = contexts
       .filter((c) => c.channel?.id ?? c.message?.channel_id)
       .filter((c) => {
-        const channel = pluginData.guild.channels.cache.get(c.channel?.id || c.message!.channel_id as Snowflake);
+        const channel = pluginData.guild.channels.cache.get(c.channel?.id || (c.message!.channel_id as Snowflake));
         return channel?.isTextBased();
       });
 
     const contextsByChannelId = contextsWithTextChannels.reduce((map: Map<string, AutomodContext[]>, context) => {
-      const channelId = context.channel?.id ?? context.message!.channel_id
+      const channelId = context.channel?.id ?? context.message!.channel_id;
       if (!map.has(channelId)) {
         map.set(channelId, []);
       }

@@ -21,8 +21,8 @@ export const EditPostTagsAction = automodAction({
       const finalTags = actionConfig.append
         ? thread.appliedTags.concat(tags)
         : actionConfig.delete
-        ? thread.appliedTags.filter((id) => !tags.includes(id))
-        : tags;
+          ? thread.appliedTags.filter((id) => !tags.includes(id))
+          : tags;
       await thread.setAppliedTags(finalTags);
     }
   },

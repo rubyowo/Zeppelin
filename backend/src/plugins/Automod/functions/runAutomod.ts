@@ -144,9 +144,9 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
       (rule.require_all_triggers && triggerMatches.length === rule.triggers.length) ||
       (!rule.require_all_triggers && triggerMatches.length !== 0)
     ) {
-      const matchResult = triggerMatches.at(-1)
+      const matchResult = triggerMatches.at(-1);
       if (!matchResult) {
-        continue
+        continue;
       }
       for (const [actionName, actionConfig] of Object.entries(rule.actions)) {
         if (actionConfig == null || actionConfig === false) {
@@ -197,7 +197,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         .profiler.addDataPoint(`automod:${pluginData.guild.id}:${ruleName}`, performance.now() - ruleStartTime);
     }
 
-    if ((triggerMatches.length !== 0) && !rule.allow_further_rules) {
+    if (triggerMatches.length !== 0 && !rule.allow_further_rules) {
       break;
     }
   }
