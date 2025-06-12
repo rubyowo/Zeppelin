@@ -56,8 +56,6 @@ services:
 
   api:
     image: ghcr.io/rubyowo/zeppelin:coolify
-    # Pull new image every deployment
-    pull_policy: always
     # Pull the x86_64 image (for now)
     platform: linux/amd64
     depends_on:
@@ -72,8 +70,6 @@ services:
 
   bot:
     image: ghcr.io/rubyowo/zeppelin:coolify
-    # Pull new image every deployment
-    pull_policy: always
     # Pull the x86_64 image (for now)
     platform: linux/amd64
     depends_on:
@@ -88,8 +84,6 @@ services:
   
   dashboard:
     image: ghcr.io/rubyowo/zeppelin:coolify
-    # Pull new image every deployment
-    pull_policy: always
     # Pull the x86_64 image (for now)
     platform: linux/amd64
     depends_on:
