@@ -20,12 +20,12 @@ RUN npm install @rollup/rollup-linux-arm64-gnu lightningcss-linux-arm64-gnu @tai
 
 COPY --chown=node:node . /zeppelin
 
-# Build dashboard
-WORKDIR /zeppelin/dashboard
-RUN npm run build
-
 # Build backend
 WORKDIR /zeppelin/backend
+RUN npm run build
+
+# Build dashboard
+WORKDIR /zeppelin/dashboard
 RUN npm run build
 
 # Prune dev dependencies
