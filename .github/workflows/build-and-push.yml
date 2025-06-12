@@ -5,17 +5,21 @@ on:
     branches:
       - 'coolify'
     paths:
-      - "package.json"
-      - "package-lock.json"
+      - package.json
+      - package-lock.json
       - backend/**
       - dashboard/**
       - shared/**
       - Dockerfile
+      - docker-compose.standalone.yml
       - .github/workflows/**
 
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+      COOLIFY_SECRET: ${{ secrets.COOLIFY_SECRET }}
     steps:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -50,3 +54,10 @@ jobs:
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+
+      - name: Deploy to Coolify
+        if: env.COOLIFY_WEBHOOK != '' && env.COOLIFY_SECRET != ''
+        run: |
+          curl --request GET "$COOLIFY_WEBHOOK" --header "Authorization: Bearer $COOLIFY_SECRET"
+        shell: bash
