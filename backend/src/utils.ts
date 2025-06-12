@@ -1338,6 +1338,17 @@ export function messageSummary(msg: SavedMessage) {
       "\n";
   }
 
+  if (msg.data.poll) {
+    const { poll } = msg.data;
+    result +=
+      "Poll: ```" +
+      escapeCodeBlock(
+        `Question: ${poll.question.text}
+        Answers: ${poll.answers.map((answer) => `${answer.text}`).join(" | ")}`
+      ) +
+      "```";
+  }
+
   return result;
 }
 
