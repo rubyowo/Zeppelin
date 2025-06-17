@@ -12,6 +12,7 @@ export interface LogMemberKickData {
   user: User;
   caseNumber: number;
   reason: string;
+  notifyResult: string | undefined;
 }
 
 export function logMemberKick(pluginData: GuildPluginData<LogsPluginType>, data: LogMemberKickData) {
@@ -23,6 +24,7 @@ export function logMemberKick(pluginData: GuildPluginData<LogsPluginType>, data:
       user: userToTemplateSafeUser(data.user),
       caseNumber: data.caseNumber,
       reason: data.reason,
+      notifyResult: data.notifyResult,
     }),
     {
       userId: data.user.id,

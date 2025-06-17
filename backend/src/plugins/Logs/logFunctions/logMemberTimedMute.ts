@@ -13,6 +13,7 @@ export interface LogMemberTimedMuteData {
   time: string;
   caseNumber: number;
   reason: string;
+  notifyResult: string | undefined;
 }
 
 export function logMemberTimedMute(pluginData: GuildPluginData<LogsPluginType>, data: LogMemberTimedMuteData) {
@@ -25,6 +26,7 @@ export function logMemberTimedMute(pluginData: GuildPluginData<LogsPluginType>, 
       time: data.time,
       caseNumber: data.caseNumber,
       reason: data.reason,
+      notifyResult: data.notifyResult,
     }),
     {},
   );

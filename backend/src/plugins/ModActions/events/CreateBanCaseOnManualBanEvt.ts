@@ -70,6 +70,7 @@ export const CreateBanCaseOnManualBanEvt = modActionsEvt({
       user: userToTemplateSafeUser(user),
       caseNumber: createdCase?.case_number ?? 0,
       reason,
+      notifyResult: "",
     });
 
     pluginData.state.events.emit("ban", user.id, reason);

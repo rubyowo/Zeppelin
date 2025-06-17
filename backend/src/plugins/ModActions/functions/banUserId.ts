@@ -174,6 +174,7 @@ export async function banUserId(
       caseNumber: createdCase.case_number,
       reason: reason ?? "",
       banTime: humanizeDuration(banTime),
+      notifyResult: notifyResult.text,
     });
   } else {
     pluginData.getPlugin(LogsPlugin).logMemberBan({
@@ -181,6 +182,7 @@ export async function banUserId(
       user,
       caseNumber: createdCase.case_number,
       reason: reason ?? "",
+      notifyResult: notifyResult.text,
     });
   }
 

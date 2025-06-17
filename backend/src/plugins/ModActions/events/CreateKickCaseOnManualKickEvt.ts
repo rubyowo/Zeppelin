@@ -58,6 +58,7 @@ export const CreateKickCaseOnManualKickEvt = modActionsEvt({
         mod,
         caseNumber: createdCase?.case_number ?? 0,
         reason: kickAuditLogEntry.reason || "",
+        notifyResult: "",
       });
 
       pluginData.state.events.emit("kick", member.id, kickAuditLogEntry.reason || undefined);

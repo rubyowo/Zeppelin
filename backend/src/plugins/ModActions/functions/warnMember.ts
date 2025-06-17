@@ -96,6 +96,7 @@ export async function warnMember(
     member,
     caseNumber: createdCase.case_number,
     reason: reason ?? "",
+    notifyResult: notifyResult.text,
   });
 
   pluginData.state.events.emit("warn", member.id, reason, warnOptions.isAutomodAction);

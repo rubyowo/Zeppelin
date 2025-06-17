@@ -99,6 +99,7 @@ export async function kickMember(
     user: member.user,
     caseNumber: createdCase.case_number,
     reason: reason ?? "",
+    notifyResult: notifyResult.text,
   });
 
   pluginData.state.events.emit("kick", member.id, reason, kickOptions.isAutomodAction);
