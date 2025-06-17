@@ -288,6 +288,7 @@ export async function muteUser(
       time: timeUntilUnmuteStr,
       caseNumber: theCase.case_number,
       reason: reason ?? "",
+      notifyResult: notifyResult.text,
     });
   } else {
     pluginData.getPlugin(LogsPlugin).logMemberMute({
@@ -295,6 +296,7 @@ export async function muteUser(
       user,
       caseNumber: theCase.case_number,
       reason: reason ?? "",
+      notifyResult: notifyResult.text,
     });
   }
 

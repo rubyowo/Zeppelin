@@ -13,6 +13,7 @@ export interface LogMemberTimedBanData {
   banTime: string;
   caseNumber: number;
   reason: string;
+  notifyResult: string | undefined;
 }
 
 export function logMemberTimedBan(pluginData: GuildPluginData<LogsPluginType>, data: LogMemberTimedBanData) {
@@ -25,6 +26,7 @@ export function logMemberTimedBan(pluginData: GuildPluginData<LogsPluginType>, d
       banTime: data.banTime,
       caseNumber: data.caseNumber,
       reason: data.reason,
+      notifyResult: data.notifyResult,
     }),
     {
       userId: data.user.id,

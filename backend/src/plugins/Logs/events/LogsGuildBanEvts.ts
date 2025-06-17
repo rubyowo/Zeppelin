@@ -28,6 +28,7 @@ export const LogsGuildBanAddEvt = logsEvt({
       user,
       caseNumber: 0,
       reason: "",
+      notifyResult: "",
     });
   },
 });

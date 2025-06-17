@@ -12,6 +12,7 @@ export interface LogMemberBanData {
   user: User | UnknownUser;
   caseNumber: number;
   reason: string;
+  notifyResult: string | undefined;
 }
 
 export function logMemberBan(pluginData: GuildPluginData<LogsPluginType>, data: LogMemberBanData) {
@@ -23,6 +24,7 @@ export function logMemberBan(pluginData: GuildPluginData<LogsPluginType>, data: 
       user: userToTemplateSafeUser(data.user),
       caseNumber: data.caseNumber,
       reason: data.reason,
+      notifyResult: data.notifyResult,
     }),
     {
       userId: data.user.id,

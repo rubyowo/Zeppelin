@@ -11,6 +11,7 @@ export interface LogMemberWarnData {
   member: GuildMember;
   caseNumber: number;
   reason: string;
+  notifyResult: string | undefined;
 }
 
 export function logMemberWarn(pluginData: GuildPluginData<LogsPluginType>, data: LogMemberWarnData) {
@@ -22,6 +23,7 @@ export function logMemberWarn(pluginData: GuildPluginData<LogsPluginType>, data:
       member: memberToTemplateSafeMember(data.member),
       caseNumber: data.caseNumber,
       reason: data.reason,
+      notifyResult: data.notifyResult,
     }),
     {
       userId: data.member.id,
