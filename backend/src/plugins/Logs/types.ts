@@ -103,6 +103,7 @@ export const LogTypeData = z.object({
     member: z.instanceof(TemplateSafeMember),
     caseNumber: z.number(),
     reason: z.string(),
+    notifyResult: z.string().or(z.undefined()),
   }),
 
   [LogType.MEMBER_MUTE]: z.object({
@@ -110,6 +111,7 @@ export const LogTypeData = z.object({
     user: z.instanceof(TemplateSafeUser),
     caseNumber: z.number(),
     reason: z.string(),
+    notifyResult: z.string().or(z.undefined()),
   }),
 
   [LogType.MEMBER_UNMUTE]: z.object({
@@ -128,6 +130,7 @@ export const LogTypeData = z.object({
     user: z.instanceof(TemplateSafeUser),
     caseNumber: z.number(),
     reason: z.string(),
+    notifyResult: z.string().or(z.undefined()),
   }),
 
   [LogType.MEMBER_BAN]: z.object({
@@ -135,6 +138,7 @@ export const LogTypeData = z.object({
     user: z.instanceof(TemplateSafeUser),
     caseNumber: z.number(),
     reason: z.string(),
+    notifyResult: z.string().or(z.undefined()),
   }),
 
   [LogType.MEMBER_UNBAN]: z.object({
