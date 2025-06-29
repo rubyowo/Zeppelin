@@ -33,7 +33,7 @@ services:
       - "${STANDALONE_WEB_PORT:?Missing STANDALONE_WEB_PORT}:443"
 
   migrate:
-    image: dragory/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:stock
     depends_on:
       mysql:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
     command: ["npm", "run", "migrate-prod"]
 
   api:
-    image: dragory/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:stock
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -63,7 +63,7 @@ services:
     command: ["npm", "run", "start-api-prod"]
 
   bot:
-    image: dragory/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:stock
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -75,7 +75,7 @@ services:
     command: ["npm", "run", "start-bot-prod"]
   
   dashboard:
-    image: dragory/zeppelin
+    image: ghcr.io/rubyowo/zeppelin:stock
     depends_on:
       migrate:
         condition: service_completed_successfully

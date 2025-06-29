@@ -11,7 +11,7 @@ on:
       - dashboard/**
       - shared/**
       - Dockerfile
-      - docker-compose.standalone.yml
+      # - docker-compose.standalone.yml
       - .github/workflows/**
 
 jobs:
