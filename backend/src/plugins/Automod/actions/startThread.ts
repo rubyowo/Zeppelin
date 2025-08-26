@@ -27,6 +27,7 @@ export const StartThreadAction = automodAction({
     const threads = contexts.filter((c) => {
       if (!c.message || !c.user) return false;
       const channel = pluginData.guild.channels.cache.get(c.message.channel_id);
+      console.log(JSON.stringify(channel))
       if (channel?.type !== ChannelType.GuildText || !channel.isTextBased()) return false; // for some reason the typing here for channel.type defaults to ThreadChannelTypes (?)
       // check against max threads per channel
       if (actionConfig.limit_per_channel && actionConfig.limit_per_channel > 0) {
