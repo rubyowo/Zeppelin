@@ -21,6 +21,7 @@ import {
   TemplateSafeUnknownUser,
   TemplateSafeUser,
 } from "../../utils/templateSafeObjects.js";
+import { TemplateSafeValueContainer } from "../../templateFormatter.js";
 import DefaultLogMessages from "../../data/DefaultLogMessages.json" with { type: "json" };
 
 const DEFAULT_BATCH_TIME = 1000;
