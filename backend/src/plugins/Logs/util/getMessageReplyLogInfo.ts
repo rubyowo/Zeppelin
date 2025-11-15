@@ -1,4 +1,4 @@
-import { GuildPluginData } from "knub";
+import { GuildPluginData } from "vety";
 import { ISavedMessageAttachmentData, SavedMessage } from "../../../data/entities/SavedMessage.js";
 import { messageLink, messageSummary, useMediaUrls } from "../../../utils.js";
 import { TemplateSafeValueContainer } from "../../../templateFormatter.js";
