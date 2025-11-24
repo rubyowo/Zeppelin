@@ -282,6 +282,16 @@ importers:
       vuex:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.5.22(typescript@5.9.3))
+    optionalDependencies:
+      '@rollup/rollup-linux-arm64-gnu':
+        specifier: ^4.43.0
+        version: 4.53.2
+      '@tailwindcss/oxide-linux-arm64-gnu':
+        specifier: ^4.1.10
+        version: 4.1.16
+      lightningcss-linux-arm64-gnu:
+        specifier: ^1.30.1
+        version: 1.30.2
 
   shared:
     devDependencies:
@@ -590,6 +600,12 @@ packages:
 
   '@rolldown/pluginutils@1.0.0-beta.45':
     resolution: {integrity: sha512-Le9ulGCrD8ggInzWw/k2J8QcbPz7eGIOWqfJ2L+1R0Opm7n6J37s2hiDWlh6LJN0Lk9L5sUzMvRHKW7UxBZsQA==}
+
+  '@rollup/rollup-linux-arm64-gnu@4.53.2':
+    resolution: {integrity: sha512-Xt2byDZ+6OVNuREgBXr4+CZDJtrVso5woFtpKdGPhpTPHcNG7D8YXeQzpNbFRxzTVqJf7kvPMCub/pcGUWgBjA==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
 
   '@sapphire/async-queue@1.5.5':
     resolution: {integrity: sha512-cvGzxbba6sav2zZkH8GPf2oGk9yYoD5qrNWdu9fRehifgnFZJMV+nuy2nON2roRO4yQQ+v7MK/Pktl/HgfsUXg==}
@@ -3373,6 +3389,9 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.0.0-beta.45': {}
+
+  '@rollup/rollup-linux-arm64-gnu@4.53.2':
+    optional: true
 
   '@sapphire/async-queue@1.5.5': {}
 
