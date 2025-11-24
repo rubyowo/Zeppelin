@@ -1,5 +1,5 @@
 import { GuildTextBasedChannel, Snowflake } from "discord.js";
-import { GuildPluginData } from "knub";
+import { GuildPluginData } from "vety";
 import { performance } from "perf_hooks";
 import { calculateBlocking, profilingEnabled } from "../../../utils/easyProfiler.js";
 import { availableActions } from "../actions/availableActions.js";
@@ -32,7 +32,7 @@ interface RuleResultOutcomeSuccess {
 
 interface RuleResultOutcomeFailure {
   success: false;
-  reason: typeof ruleFailReason[keyof typeof ruleFailReason];
+  reason: (typeof ruleFailReason)[keyof typeof ruleFailReason];
 }
 
 type RuleResultOutcome = RuleResultOutcomeSuccess | RuleResultOutcomeFailure;
@@ -48,7 +48,11 @@ interface AutomodRunResult {
   rulesChecked: RuleResult[];
 }
 
-export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>, context: AutomodContext, dryRun: boolean = false): Promise<AutomodRunResult> {
+export async function runAutomod(
+  pluginData: GuildPluginData<AutomodPluginType>,
+  context: AutomodContext,
+  dryRun = false,
+): Promise<AutomodRunResult> {
   const userId = context.user?.id || context.member?.id || context.message?.user_id;
   const user = context.user || (userId && pluginData.client.users!.cache.get(userId as Snowflake));
   const member = context.member || (userId && pluginData.guild.members.cache.get(userId as Snowflake)) || null;
@@ -143,7 +147,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
         if (profilingEnabled()) {
           const blockingTime = getBlockingTime?.() || 0;
           pluginData
-            .getKnubInstance()
+            .getVetyInstance()
             .profiler.addDataPoint(
               `automod:${pluginData.guild.id}:${ruleName}:triggers:${triggerName}:blocking`,
               blockingTime,
@@ -187,7 +191,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
 
         if (profilingEnabled()) {
           pluginData
-            .getKnubInstance()
+            .getVetyInstance()
             .profiler.addDataPoint(
               `automod:${pluginData.guild.id}:${ruleName}:triggers:${triggerName}`,
               performance.now() - triggerStartTime,
@@ -230,7 +234,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
 
         if (profilingEnabled()) {
           pluginData
-            .getKnubInstance()
+            .getVetyInstance()
             .profiler.addDataPoint(
               `automod:${pluginData.guild.id}:${ruleName}:actions:${actionName}`,
               performance.now() - actionStartTime,
@@ -253,7 +257,7 @@ export async function runAutomod(pluginData: GuildPluginData<AutomodPluginType>,
 
     if (profilingEnabled()) {
       pluginData
-        .getKnubInstance()
+        .getVetyInstance()
         .profiler.addDataPoint(`automod:${pluginData.guild.id}:${ruleName}`, performance.now() - ruleStartTime);
     }
 

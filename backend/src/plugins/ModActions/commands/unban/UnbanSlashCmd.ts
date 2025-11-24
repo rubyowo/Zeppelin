@@ -1,5 +1,5 @@
 import { GuildMember } from "discord.js";
-import { slashOptions } from "knub";
+import { slashOptions } from "vety";
 import { hasPermission } from "../../../../pluginUtils.js";
 import { resolveMember } from "../../../../utils.js";
 import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions.js";
@@ -27,12 +27,6 @@ export const UnbanSlashCmd = modActionsSlashCmd({
   async run({ interaction, options, pluginData }) {
     await interaction.deferReply({ ephemeral: true });
     const attachments = retrieveMultipleOptions(NUMBER_ATTACHMENTS_CASE_CREATION, options, "attachment");
-
-    if ((!options.reason || options.reason.trim() === "") && attachments.length < 1) {
-      pluginData.state.common.sendErrorMessage(interaction, "Text or attachment required", undefined, undefined, true);
-
-      return;
-    }
 
     let mod = interaction.member as GuildMember;
     const canActAsOther = await hasPermission(pluginData, "can_act_as_other", {

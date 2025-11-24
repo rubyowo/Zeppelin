@@ -1,6 +1,6 @@
 import { ButtonStyle } from "discord.js";
-import { BasePluginType, pluginUtils } from "knub";
-import z from "zod/v4";
+import { BasePluginType, pluginUtils } from "vety";
+import { z } from "zod";
 import { GuildRoleButtons } from "../../data/GuildRoleButtons.js";
 import { zBoundedCharacters, zBoundedRecord, zMessageContent, zSnowflake } from "../../utils.js";
 import { CommonPlugin } from "../Common/CommonPlugin.js";
@@ -44,6 +44,8 @@ const zRoleButtonsConfigItem = z
         content: zMessageContent,
       }),
     ]),
+    add_message: zMessageContent.optional(),
+    remove_message: zMessageContent.optional(),
     options: z.array(zRoleButtonOption).max(25),
     exclusive: z.boolean().default(false),
   })

@@ -1,4 +1,4 @@
-import { guildPluginMessageCommand } from "knub";
+import { guildPluginMessageCommand } from "vety";
 import moment from "moment-timezone";
 import { commandTypeHelpers as ct } from "../../../commandTypes.js";
 import { AutomodContext, AutomodPluginType } from "../types.js";
@@ -10,7 +10,7 @@ import { getOrFetchUser } from "../../../utils/getOrFetchUser.js";
 export const DebugAutomodCmd = guildPluginMessageCommand<AutomodPluginType>()({
   trigger: "debug_automod",
   permission: "can_debug_automod",
-  
+
   signature: {
     messageId: ct.string(),
   },
