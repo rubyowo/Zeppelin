@@ -1,12 +1,12 @@
-import { BasePluginType, CooldownManager, guildPluginEventListener } from "knub";
-import { z } from "zod/v4";
+import { BasePluginType, CooldownManager, guildPluginEventListener } from "vety";
+import { z } from "zod";
 import { RegExpRunner } from "../../RegExpRunner.js";
 import { GuildArchives } from "../../data/GuildArchives.js";
 import { GuildCases } from "../../data/GuildCases.js";
 import { GuildLogs } from "../../data/GuildLogs.js";
 import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
 import { LogType } from "../../data/LogType.js";
-import { keys, zBoundedCharacters, zEmbedInput, zMessageContent, zRegex, zSnowflake, zStrictMessageContent } from "../../utils.js";
+import { keys, zBoundedCharacters, zMessageContent, zRegex, zSnowflake } from "../../utils.js";
 import { MessageBuffer } from "../../utils/MessageBuffer.js";
 import {
   TemplateSafeCase,
@@ -21,7 +21,9 @@ import {
   TemplateSafeUnknownUser,
   TemplateSafeUser,
 } from "../../utils/templateSafeObjects.js";
+import { TemplateSafeValueContainer } from "../../templateFormatter.js";
 import DefaultLogMessages from "../../data/DefaultLogMessages.json" with { type: "json" };
+import { TemplateSafeValueContainer } from "templateFormatter.js";
 
 const DEFAULT_BATCH_TIME = 1000;
 const MIN_BATCH_TIME = 250;
@@ -30,10 +32,13 @@ const MAX_BATCH_TIME = 5000;
 // A bit of a workaround so we can pass LogType keys to z.enum()
 const zMessageContentWithDefault = zMessageContent.default("");
 const logTypes = keys(LogType);
-const logTypeProps = logTypes.reduce((map, type) => {
-  map[type] = zMessageContent.default(DefaultLogMessages[type] || "");
-  return map;
-}, {} as Record<keyof typeof LogType, typeof zMessageContentWithDefault>);
+const logTypeProps = logTypes.reduce(
+  (map, type) => {
+    map[type] = zMessageContent.default(DefaultLogMessages[type] || "");
+    return map;
+  },
+  {} as Record<keyof typeof LogType, typeof zMessageContentWithDefault>,
+);
 const zLogFormats = z.strictObject(logTypeProps);
 
 const zLogChannel = z.strictObject({
@@ -236,6 +241,8 @@ export const LogTypeData = z.object({
     channel: z.instanceof(TemplateSafeChannel),
     messageDate: z.string(),
     message: z.instanceof(TemplateSafeSavedMessage),
+    replyInfo: z.string(),
+    reply: z.instanceof(TemplateSafeValueContainer).nullable(),
   }),
 
   [LogType.MESSAGE_DELETE_BULK]: z.object({
@@ -486,6 +493,8 @@ export const LogTypeData = z.object({
     user: z.instanceof(TemplateSafeUser),
     channel: z.instanceof(TemplateSafeChannel),
     messageDate: z.string(),
+    replyInfo: z.string(),
+    reply: z.instanceof(TemplateSafeValueContainer).nullable(),
   }),
 
   [LogType.SET_ANTIRAID_USER]: z.object({

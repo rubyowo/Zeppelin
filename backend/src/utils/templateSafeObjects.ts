@@ -13,7 +13,7 @@ import {
   StickerFormatType,
   User,
 } from "discord.js";
-import { GuildPluginData } from "knub";
+import { GuildPluginData } from "vety";
 import { Case } from "../data/entities/Case.js";
 import {
   ISavedMessageAttachmentData,
@@ -191,6 +191,7 @@ export class TemplateSafeSavedMessageData extends TemplateSafeValueContainer {
   embeds?: Array<TypedTemplateSafeValueContainer<ISavedMessageEmbedData>>;
   stickers?: Array<TypedTemplateSafeValueContainer<ISavedMessageStickerData>>;
   timestamp: number;
+  reference?: TypedTemplateSafeValueContainer<ISavedMessageData["reference"]>;
 
   constructor(data: InputProps<TemplateSafeSavedMessageData>) {
     super();
@@ -445,6 +446,14 @@ export function savedMessageToTemplateSafeSavedMessage(savedMessage: SavedMessag
       ),
 
       timestamp: savedMessage.data.timestamp,
+
+      reference: savedMessage.data.reference
+        ? (new TemplateSafeValueContainer({
+            messageId: savedMessage.data.reference.messageId ?? null,
+            channelId: savedMessage.data.reference.channelId ?? null,
+            guildId: savedMessage.data.reference.guildId ?? null,
+          }) as TypedTemplateSafeValueContainer<ISavedMessageData["reference"]>)
+        : undefined,
     }),
   });
 }
