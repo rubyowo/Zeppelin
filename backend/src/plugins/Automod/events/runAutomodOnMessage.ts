@@ -17,7 +17,7 @@ export async function runAutomodOnMessage(
   isEdit: boolean,
 ) {
   incrementDebugCounter("automod:runAutomodOnMessage");
-  
+
   const member = await getOrFetchGuildMember(pluginData.guild, message.user_id);
   const user = await getOrFetchUser(pluginData.client, message.user_id);
 

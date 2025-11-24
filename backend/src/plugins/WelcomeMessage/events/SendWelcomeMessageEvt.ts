@@ -1,11 +1,6 @@
 import { PermissionsBitField, Snowflake, TextChannel } from "discord.js";
 import { TemplateParseError, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
-import {
-  createChunkedMessage,
-  renderRecursively,
-  verboseChannelMention,
-  verboseUserMention
-} from "../../../utils.js";
+import { createChunkedMessage, renderRecursively, verboseChannelMention, verboseUserMention } from "../../../utils.js";
 import { MessageContent } from "../../../utils.js";
 import { hasDiscordPermissions } from "../../../utils/hasDiscordPermissions.js";
 import { sendDM } from "../../../utils/sendDM.js";
@@ -46,9 +41,10 @@ export const SendWelcomeMessageEvt = welcomeMessageEvt({
     let formatted: MessageContent;
 
     try {
-      formatted = typeof config.message === "string"
-        ? await renderMessageText(config.message)
-        : ((await renderRecursively(config.message, renderMessageText)) as MessageContent);
+      formatted =
+        typeof config.message === "string"
+          ? await renderMessageText(config.message)
+          : ((await renderRecursively(config.message, renderMessageText)) as MessageContent);
     } catch (e) {
       if (e instanceof TemplateParseError) {
         pluginData.getPlugin(LogsPlugin).logBotAlert({
@@ -87,11 +83,10 @@ export const SendWelcomeMessageEvt = welcomeMessageEvt({
       }
 
       if (
-        typeof formatted === "object" && formatted.embeds && formatted.embeds.length > 0 &&
-        !hasDiscordPermissions(
-          channel.permissionsFor(pluginData.client.user!.id),
-          PermissionsBitField.Flags.EmbedLinks,
-        )
+        typeof formatted === "object" &&
+        formatted.embeds &&
+        formatted.embeds.length > 0 &&
+        !hasDiscordPermissions(channel.permissionsFor(pluginData.client.user!.id), PermissionsBitField.Flags.EmbedLinks)
       ) {
         pluginData.getPlugin(LogsPlugin).logBotAlert({
           body: `Missing permissions to send welcome message **with embeds** in ${verboseChannelMention(channel)}`,

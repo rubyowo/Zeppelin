@@ -27,5 +27,5 @@ With this setup:
 - \`!c\` runs \`!cases\`
 - \`!b2 @User\` runs \`!ban -d 2 @User\`
 - \`!ownerinfo\` runs \`!info 754421392988045383\`
-  `
+  `,
 };

@@ -36,7 +36,11 @@ export const CreateKickCaseOnManualKickEvt = modActionsEvt({
           `Tried to create duplicate case for audit log entry ${kickAuditLogEntry.id}, existing case id ${createdCase.id}`,
         );
       } else {
-        mod = await resolveUser(pluginData.client, kickAuditLogEntry.executor!.id, "ModActions:CreateKickCaseOnManualKickEvt");
+        mod = await resolveUser(
+          pluginData.client,
+          kickAuditLogEntry.executor!.id,
+          "ModActions:CreateKickCaseOnManualKickEvt",
+        );
 
         const config = mod instanceof UnknownUser ? pluginData.config.get() : await pluginData.config.getForUser(mod);
 

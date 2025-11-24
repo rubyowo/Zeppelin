@@ -34,9 +34,7 @@ export async function waitForButtonConfirm(
 
     collector.on("collect", (interaction: MessageComponentInteraction) => {
       if (options?.restrictToId && options.restrictToId !== interaction.user.id) {
-        interaction
-          .reply({ content: `You are not permitted to use these buttons.`, ephemeral: true })
-          .catch(noop);
+        interaction.reply({ content: `You are not permitted to use these buttons.`, ephemeral: true }).catch(noop);
       } else if (interaction.customId.startsWith(`confirmButton:${idMod}:`)) {
         if (!contextIsInteraction) {
           message.delete().catch(noop);

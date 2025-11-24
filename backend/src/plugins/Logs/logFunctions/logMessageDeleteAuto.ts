@@ -21,7 +21,10 @@ export interface LogMessageDeleteAutoData {
   messageDate: string;
 }
 
-export async function logMessageDeleteAuto(pluginData: GuildPluginData<LogsPluginType>, data: LogMessageDeleteAutoData) {
+export async function logMessageDeleteAuto(
+  pluginData: GuildPluginData<LogsPluginType>,
+  data: LogMessageDeleteAutoData,
+) {
   if (data.message.data.attachments) {
     for (const attachment of data.message.data.attachments as ISavedMessageAttachmentData[]) {
       attachment.url = useMediaUrls(attachment.url);

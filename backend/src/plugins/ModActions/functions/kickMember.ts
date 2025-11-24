@@ -46,7 +46,9 @@ export async function kickMember(
               guildName: pluginData.guild.name,
               reason: reasonWithAttachments,
               moderator: kickOptions.caseArgs?.modId
-                ? userToTemplateSafeUser(await resolveUser(pluginData.client, kickOptions.caseArgs.modId, "ModActions:kickMember"))
+                ? userToTemplateSafeUser(
+                    await resolveUser(pluginData.client, kickOptions.caseArgs.modId, "ModActions:kickMember"),
+                  )
                 : null,
             }),
           );

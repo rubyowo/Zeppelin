@@ -235,7 +235,8 @@ export async function actualCasesCmd(
   show: boolean | null,
 ) {
   const mod = modId
-    ? (await resolveMember(pluginData.client, pluginData.guild, modId)) || (await resolveUser(pluginData.client, modId, "ModActions:actualCasesCmd"))
+    ? (await resolveMember(pluginData.client, pluginData.guild, modId)) ||
+      (await resolveUser(pluginData.client, modId, "ModActions:actualCasesCmd"))
     : null;
   const modName = modId ? (mod instanceof UnknownUser ? modId : renderUsername(mod!)) : renderUsername(author);
 

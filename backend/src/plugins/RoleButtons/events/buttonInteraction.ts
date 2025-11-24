@@ -7,7 +7,11 @@ import { RoleManagerPlugin } from "../../RoleManager/RoleManagerPlugin.js";
 import { getAllRolesInButtons } from "../functions/getAllRolesInButtons.js";
 import { RoleButtonsPluginType, TRoleButtonOption } from "../types.js";
 import { renderTemplate, TemplateSafeValueContainer } from "../../../templateFormatter.js";
-import { memberToTemplateSafeMember, roleToTemplateSafeRole, userToTemplateSafeUser } from "../../../utils/templateSafeObjects.js";
+import {
+  memberToTemplateSafeMember,
+  roleToTemplateSafeRole,
+  userToTemplateSafeUser,
+} from "../../../utils/templateSafeObjects.js";
 
 const ROLE_BUTTON_CD = 5 * SECONDS;
 
@@ -60,17 +64,21 @@ export const onButtonInteraction = guildPluginEventListener<RoleButtonsPluginTyp
         str,
         new TemplateSafeValueContainer({
           user: member ? memberToTemplateSafeMember(member) : userToTemplateSafeUser(args.interaction.user),
-          role: role ? roleToTemplateSafeRole(role) : new TemplateSafeValueContainer({ name: roleName, id: option.role_id }),
+          role: role
+            ? roleToTemplateSafeRole(role)
+            : new TemplateSafeValueContainer({ name: roleName, id: option.role_id }),
         }),
       );
 
     if (member.roles.cache.has(option.role_id)) {
       rolesToRemove.push(option.role_id);
 
-      const messageTemplate = config.buttons[name].remove_message || `The role **${roleName}** will be removed shortly!`;
-      const formatted = typeof messageTemplate === "string"
-        ? await renderTemplateText(messageTemplate)
-        : await renderRecursively(messageTemplate, renderTemplateText);
+      const messageTemplate =
+        config.buttons[name].remove_message || `The role **${roleName}** will be removed shortly!`;
+      const formatted =
+        typeof messageTemplate === "string"
+          ? await renderTemplateText(messageTemplate)
+          : await renderRecursively(messageTemplate, renderTemplateText);
 
       args.interaction
         .reply({ ephemeral: true, ...(typeof formatted === "string" ? { content: formatted } : formatted) })
@@ -87,9 +95,10 @@ export const onButtonInteraction = guildPluginEventListener<RoleButtonsPluginTyp
       }
 
       const messageTemplate = config.buttons[name].add_message || `You will receive the **${roleName}** role shortly!`;
-      const formatted = typeof messageTemplate === "string"
-        ? await renderTemplateText(messageTemplate)
-        : await renderRecursively(messageTemplate, renderTemplateText);
+      const formatted =
+        typeof messageTemplate === "string"
+          ? await renderTemplateText(messageTemplate)
+          : await renderRecursively(messageTemplate, renderTemplateText);
 
       args.interaction
         .reply({ ephemeral: true, ...(typeof formatted === "string" ? { content: formatted } : formatted) })

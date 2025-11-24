@@ -17,11 +17,7 @@ export class DMError extends Error {}
 
 const error20026 = "The bot cannot currently send DMs";
 
-export async function sendDM(
-  user: User,
-  content: MessageContent,
-  source: string,
-) {
+export async function sendDM(user: User, content: MessageContent, source: string) {
   if (dmsDisabled) {
     throw new DMError(error20026);
   }
