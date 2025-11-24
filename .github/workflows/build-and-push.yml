@@ -6,7 +6,7 @@ on:
       - 'stock'
     paths:
       - package.json
-      - package-lock.json
+      - pnpm-lock.yaml
       - backend/**
       - dashboard/**
       - shared/**
